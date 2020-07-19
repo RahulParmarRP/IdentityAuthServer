@@ -35,10 +35,11 @@ namespace IdentityAuthServer
 
             services.AddControllers();
 
+            // identity server service configs
             var builder = services.AddIdentityServer()
                 .AddInMemoryApiScopes(Config.ApiScopes)
                 .AddInMemoryClients(Config.Clients);
-
+            // identity server service configs
             builder.AddDeveloperSigningCredential();
         }
 
@@ -52,7 +53,10 @@ namespace IdentityAuthServer
 
             app.UseHttpsRedirection();
 
-            app.UseRouting(); 
+            app.UseRouting();
+
+            // needed to add identity server and find its 
+            // discovery document end point 
             app.UseIdentityServer();
 
             app.UseAuthorization();
