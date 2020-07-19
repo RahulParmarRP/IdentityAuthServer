@@ -35,18 +35,27 @@ namespace IdentityAuthServer
             services.AddDbContext<AppDatabaseContext>(
                 options => options.UseSqlServer(connectionString));
 
+            /* Note that AddIdentity<ApplicationUser, IdentityRole> 
+             * must be invoked before AddIdentityServer.
+             */
             // this are dependency services for ASP Identity 
             // related to create, login, sign out
-            services.AddIdentity<AppUser, IdentityRole>()
-            .AddEntityFrameworkStores<AppDatabaseContext>();
+            services
+                .AddIdentity<AppUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppDatabaseContext>();
 
             // auto added by ASP NET Web API
             services.AddControllers();
 
             // identity server service configs
-            var builder = services.AddIdentityServer()
+            var builder = services
+                .AddIdentityServer()
                 .AddInMemoryApiScopes(Config.ApiScopes)
-                .AddInMemoryClients(Config.Clients);
+                .AddInMemoryClients(Config.Clients)
+            // needed for asp net identity to run with
+            // identity server integration
+                .AddAspNetIdentity<AppUser>();
+
             // identity server service configs
             builder.AddDeveloperSigningCredential();
         }
@@ -60,6 +69,7 @@ namespace IdentityAuthServer
             }
 
             app.UseHttpsRedirection();
+
             // needed for MVC based routing in Web API
             app.UseRouting();
 
@@ -68,7 +78,6 @@ namespace IdentityAuthServer
             app.UseIdentityServer();
 
             app.UseAuthorization();
-
 
             // needed for MVC based routing in Web API
             app.UseEndpoints(endpoints =>
