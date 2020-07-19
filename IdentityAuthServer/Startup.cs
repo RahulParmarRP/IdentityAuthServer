@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IdentityAuthServer.Data;
+using IdentityAuthServer.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -33,6 +35,12 @@ namespace IdentityAuthServer
             services.AddDbContext<AppDatabaseContext>(
                 options => options.UseSqlServer(connectionString));
 
+            // this are dependency services for ASP Identity 
+            // related to create, login, sign out
+            services.AddIdentity<AppUser, IdentityRole>()
+            .AddEntityFrameworkStores<AppDatabaseContext>();
+
+            // auto added by ASP NET Web API
             services.AddControllers();
 
             // identity server service configs
@@ -52,7 +60,7 @@ namespace IdentityAuthServer
             }
 
             app.UseHttpsRedirection();
-
+            // needed for MVC based routing in Web API
             app.UseRouting();
 
             // needed to add identity server and find its 
@@ -61,6 +69,8 @@ namespace IdentityAuthServer
 
             app.UseAuthorization();
 
+
+            // needed for MVC based routing in Web API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
