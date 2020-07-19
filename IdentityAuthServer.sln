@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityAuthServer", "IdentityAuthServer\IdentityAuthServer.csproj", "{DB2E58DE-D34E-4418-ADDC-BA995ACAE011}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityAuthServer", "IdentityAuthServer\IdentityAuthServer.csproj", "{DB2E58DE-D34E-4418-ADDC-BA995ACAE011}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExampleWebAPI", "ExampleWebAPI", "{187AEAEB-5CEB-43C8-9F6F-507F5D9FB4C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebAPI", "TestWebAPI\TestWebAPI.csproj", "{6A3B78B4-BF37-48A5-8529-FED69A9AE939}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +19,16 @@ Global
 		{DB2E58DE-D34E-4418-ADDC-BA995ACAE011}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB2E58DE-D34E-4418-ADDC-BA995ACAE011}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB2E58DE-D34E-4418-ADDC-BA995ACAE011}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A3B78B4-BF37-48A5-8529-FED69A9AE939}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A3B78B4-BF37-48A5-8529-FED69A9AE939}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A3B78B4-BF37-48A5-8529-FED69A9AE939}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A3B78B4-BF37-48A5-8529-FED69A9AE939}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6A3B78B4-BF37-48A5-8529-FED69A9AE939} = {187AEAEB-5CEB-43C8-9F6F-507F5D9FB4C9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9B275390-518F-46D8-BAFF-0A5DDB2DD510}
