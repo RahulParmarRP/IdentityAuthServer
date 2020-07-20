@@ -34,7 +34,9 @@ namespace TestWebAPI
                 services.AddAuthentication()
                     .AddIdentityServerJwt();
              */
-            services.AddAuthentication()
+
+            // accepts any access token issued by identity server
+            services.AddAuthentication("Bearer")
                  .AddJwtBearer("Bearer", options =>
                  {
                      options.Authority = "https://localhost:5001";
