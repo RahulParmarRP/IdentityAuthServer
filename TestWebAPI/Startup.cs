@@ -26,6 +26,14 @@ namespace TestWebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            /*
+             * 
+             * Authentication with an additional AddIdentityServerJwt helper method that configures the app to validate JWT tokens produced by IdentityServer:
+                services.AddAuthentication()
+                    .AddIdentityServerJwt();
+             */
+            services.AddAuthentication();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,7 +47,12 @@ namespace TestWebAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            /*
+                In some cases, the call to AddAuthentication is automatically made by other extension methods. For example, when using ASP.NET Core Identity, AddAuthentication is called internally.
 
+                Identity is enabled by calling UseAuthentication. UseAuthentication adds authentication middleware to the request pipeline.
+            */
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
