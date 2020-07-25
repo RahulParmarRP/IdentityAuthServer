@@ -82,6 +82,13 @@ namespace TestWebAPI
                 endpoints
                 .MapControllers()
                 // auth policy name
+                /*
+                 * You can now enforce this policy at various levels, e.g.
+                    globally
+                    for all API endpoints
+                    for specific controllers/actions
+                 * Typically you setup the policy for all API endpoints in the routing system:
+                 */
                 .RequireAuthorization("AuthorizeByApiScope");
             });
         }
