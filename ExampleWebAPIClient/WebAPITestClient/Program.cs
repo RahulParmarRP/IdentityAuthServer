@@ -43,7 +43,7 @@ namespace WebAPITestClient
             var apiClient = new HttpClient();
             apiClient.SetBearerToken(tokenResponse.AccessToken);
 
-            var response = await apiClient.GetAsync("https://localhost:6001/api/identity/test");
+            var response = await apiClient.GetAsync("https://localhost:6001/api/identity/claims");
             if (!response.IsSuccessStatusCode)
             {
                 Console.WriteLine(response.StatusCode);
