@@ -27,6 +27,14 @@ namespace TestWebAPI.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
+        [Route("anonymousTest")]
+        public IActionResult GetData()
+        {
+            return Ok("anonymous test success");
+        }
+
+        [HttpGet]
         [Route("claims")]
         public IActionResult GetClaims()
         {
