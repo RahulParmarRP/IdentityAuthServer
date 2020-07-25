@@ -25,5 +25,19 @@ namespace TestWebAPI.Controllers
             })
             .ToArray();
         }
+
+        [HttpGet]
+        [Route("claims")]
+        public IActionResult GetClaims()
+        {
+            var result = from c in User.Claims
+                         select new
+                         {
+                             c.Type,
+                             c.Value
+                         };
+
+            return new JsonResult(result);
+        }
     }
 }
