@@ -30,14 +30,14 @@ namespace TestWebAPI.Controllers
         [Route("claims")]
         public IActionResult GetClaims()
         {
-            var result = from c in User.Claims
+            var claims = from c in User.Claims
                          select new
                          {
                              c.Type,
                              c.Value
                          };
 
-            return new JsonResult(result);
+            return new JsonResult(claims);
         }
     }
 }
