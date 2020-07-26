@@ -13,6 +13,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExampleWebAPIClient", "Exam
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPITestClient", "ExampleWebAPIClient\WebAPITestClient\WebAPITestClient.csproj", "{0455F287-06B3-4E04-B499-5C8AB5791E72}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestWebAPI2", "TestWebAPI2", "{5CA1AF30-8153-43DC-B1D8-AB8004A3DA88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebAPIPolicyBasedAuthorization", "TestWebAPI2\TestWebAPIPolicyBasedAuthorization\TestWebAPIPolicyBasedAuthorization.csproj", "{5216C3F6-0827-4C90-A3CB-6F6E954693D7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +35,10 @@ Global
 		{0455F287-06B3-4E04-B499-5C8AB5791E72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0455F287-06B3-4E04-B499-5C8AB5791E72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0455F287-06B3-4E04-B499-5C8AB5791E72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5216C3F6-0827-4C90-A3CB-6F6E954693D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5216C3F6-0827-4C90-A3CB-6F6E954693D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5216C3F6-0827-4C90-A3CB-6F6E954693D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5216C3F6-0827-4C90-A3CB-6F6E954693D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -38,6 +46,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{6A3B78B4-BF37-48A5-8529-FED69A9AE939} = {187AEAEB-5CEB-43C8-9F6F-507F5D9FB4C9}
 		{0455F287-06B3-4E04-B499-5C8AB5791E72} = {403E5705-BD20-4E46-9829-E175481E0AF9}
+		{5216C3F6-0827-4C90-A3CB-6F6E954693D7} = {5CA1AF30-8153-43DC-B1D8-AB8004A3DA88}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9B275390-518F-46D8-BAFF-0A5DDB2DD510}
