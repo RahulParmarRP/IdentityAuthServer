@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using IdentityAuthServer.Data;
 using IdentityAuthServer.Models;
+using IdentityAuthServer.Services;
+using IdentityServer4.AspNetIdentity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -43,6 +45,7 @@ namespace IdentityAuthServer
             services
                 .AddIdentity<AppUser, IdentityRole>()
                 .AddEntityFrameworkStores<AppDatabaseContext>();
+            //.AddDefaultTokenProviders();
 
             // auto added by ASP NET Web API
             services.AddControllers();
@@ -50,14 +53,24 @@ namespace IdentityAuthServer
             // identity server service configs
             var builder = services
                 .AddIdentityServer()
+                // identity server service configs
+                // Creates temporary key material at startup time.This is for dev scenarios. 
+                // The generated key will be persisted in the local directory by default.
+                .AddDeveloperSigningCredential()
+                /*
+                 * IdentityServer with an additional AddApiAuthorization helper method that sets up some default ASP.NET Core conventions on top of IdentityServer:
+                 * 
+                 */
+                // .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+                .AddInMemoryApiResources(Config.GetApiResources())
                 .AddInMemoryApiScopes(Config.ApiScopes)
                 .AddInMemoryClients(Config.Clients)
-            // needed for asp net identity to run with
-            // identity server integration
-                .AddAspNetIdentity<AppUser>();
-
-            // identity server service configs
-            builder.AddDeveloperSigningCredential();
+                .AddTestUsers(Config.TestUsers)
+                // needed for asp net identity to run with
+                // identity server integration
+                //.AddAspNetIdentity<AppUser>()
+                .AddProfileService<CustomProfileService>();
+            ;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -73,10 +86,11 @@ namespace IdentityAuthServer
             // needed for MVC based routing in Web API
             app.UseRouting();
 
+            // UseIdentityServer includes a call to UseAuthentication, 
+            // so it’s not necessary to have both.
             // needed to add identity server and find its 
             // discovery document end point 
             app.UseIdentityServer();
-
             app.UseAuthorization();
 
             // needed for MVC based routing in Web API
