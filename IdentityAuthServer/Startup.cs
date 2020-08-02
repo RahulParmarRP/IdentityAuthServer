@@ -68,7 +68,7 @@ namespace IdentityAuthServer
                 .AddTestUsers(Config.TestUsers)
                 // needed for asp net identity to run with
                 // identity server integration
-                //.AddAspNetIdentity<AppUser>()
+                .AddAspNetIdentity<AppUser>()
                 .AddProfileService<CustomProfileService>();
             ;
         }
