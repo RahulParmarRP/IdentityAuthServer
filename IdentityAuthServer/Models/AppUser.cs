@@ -8,5 +8,6 @@ namespace IdentityAuthServer.Models
 {
     public class AppUser : IdentityUser
     {
+        //public virtual ICollection<IdentityUserClaim<string>> Claims { get; set; }
     }
 }
