@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityAuthServer.Models;
 using IdentityAuthServer.ViewModel;
@@ -54,16 +55,25 @@ namespace IdentityAuthServer.Controllers
                     UserName = model.Email,
                     Email = model.Email
                 };
+                var password = model.Password;
+                var result = password != null ?
+                    await _userManager.CreateAsync(user, password) :
+                    await _userManager.CreateAsync(user);
 
-                var result = await _userManager.CreateAsync(user, model.Password);
+                //var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    //_logger.LogInformation("User created a new account with password.");
+                    if (!string.IsNullOrEmpty(model.UserRole))
+                    {
+                        //await _userManager.AddToRoleAsync(user, "SomeRole");
+                        var userRoleClaim = new Claim("UserRole", model.UserRole);
+                        var identityResult = await _userManager.AddClaimAsync(user, userRoleClaim);
+                    }
 
+                    //_logger.LogInformation("User created a new account with password.");
                     //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     //var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
                     //await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
-
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     //_logger.LogInformation("User created a new account with password.");
                     //return RedirectToLocal(returnUrl);
