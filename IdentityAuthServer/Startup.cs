@@ -6,6 +6,7 @@ using IdentityAuthServer.Data;
 using IdentityAuthServer.Models;
 using IdentityAuthServer.Services;
 using IdentityServer4.AspNetIdentity;
+using IdentityServer4.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -24,6 +25,7 @@ namespace IdentityAuthServer
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
         }
 
         public IConfiguration Configuration { get; }
@@ -31,7 +33,6 @@ namespace IdentityAuthServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             var connectionString = Configuration.GetConnectionString("MSSqlServerConnection");
 
             services.AddDbContext<AppDatabaseContext>(
@@ -40,15 +41,23 @@ namespace IdentityAuthServer
             /* Note that AddIdentity<ApplicationUser, IdentityRole> 
              * must be invoked before AddIdentityServer.
              */
-            // this are dependency services for ASP Identity 
+            // this are dependency services for ASP Identity
             // related to create, login, sign out
             services
                 .AddIdentity<AppUser, IdentityRole>()
-                .AddEntityFrameworkStores<AppDatabaseContext>();
-            //.AddDefaultTokenProviders();
+                .AddEntityFrameworkStores<AppDatabaseContext>()
+                /* they are exclusively used to generate opaque tokens for account operations (like password reset or email change) and two-factor authentication.
+                 */
+                .AddDefaultTokenProviders()
+                // to add claims while returning user
+                //.AddClaimsPrincipalFactory<CustomUserClaimsPrincipalFactory>()
+                ;
 
             // auto added by ASP NET Web API
             services.AddControllers();
+
+            services.AddScoped<IProfileService, CustomProfileService>();
+            services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, CustomUserClaimsPrincipalFactory>();
 
             // identity server service configs
             var builder = services
@@ -62,6 +71,7 @@ namespace IdentityAuthServer
                  * 
                  */
                 // .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+                .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApiResources())
                 .AddInMemoryApiScopes(Config.ApiScopes)
                 .AddInMemoryClients(Config.Clients)
@@ -69,7 +79,7 @@ namespace IdentityAuthServer
                 // needed for asp net identity to run with
                 // identity server integration
                 .AddAspNetIdentity<AppUser>()
-                .AddProfileService<CustomProfileService>();
+                .AddProfileService<CustomProfileService>()
             ;
         }
 
