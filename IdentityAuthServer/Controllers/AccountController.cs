@@ -66,7 +66,7 @@ namespace IdentityAuthServer.Controllers
                     if (!string.IsNullOrEmpty(model.UserRole))
                     {
                         //await _userManager.AddToRoleAsync(user, "SomeRole");
-                        var userRoleClaim = new Claim("UserRole", model.UserRole);
+                        var userRoleClaim = new Claim("userRole", model.UserRole);
                         var identityResult = await _userManager.AddClaimAsync(user, userRoleClaim);
                     }
 
