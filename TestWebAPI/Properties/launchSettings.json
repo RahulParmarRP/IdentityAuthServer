@@ -19,7 +19,7 @@
     },
     "TestWebAPI": {
       "commandName": "Project",
-      "launchBrowser": true,
+      //"launchBrowser": true,
       "launchUrl": "testwebapi",
       "applicationUrl": "https://localhost:6001;http://localhost:6000",
       "environmentVariables": {
