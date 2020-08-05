@@ -10,7 +10,7 @@ namespace TestWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Policy = "AuthorizeByApiScope")]
     public class IdentityController : ControllerBase
     {
         [HttpGet]
@@ -37,6 +37,36 @@ namespace TestWebAPI.Controllers
         [HttpGet]
         [Route("claims")]
         public IActionResult GetClaims()
+        {
+            var claims = from c in User.Claims
+                         select new
+                         {
+                             c.Type,
+                             c.Value
+                         };
+
+            return new JsonResult(claims);
+        }
+
+        [HttpGet]
+        [Route("enduser")]
+        [Authorize(Policy = "UserSecure")]
+        public IActionResult GetClaimsEndUser()
+        {
+            var claims = from c in User.Claims
+                         select new
+                         {
+                             c.Type,
+                             c.Value
+                         };
+
+            return new JsonResult(claims);
+        }
+
+        [HttpGet]
+        [Route("clientadmin")]
+        [Authorize(Policy = "AdminSecure")]
+        public IActionResult GetClaimsClientAdminUser()
         {
             var claims = from c in User.Claims
                          select new
