@@ -28,6 +28,14 @@ namespace TestWebAPI
         {
             services.AddControllers();
 
+
+
+            /*
+             * As well, we’ve turned off the JWT claim type mapping 
+             * to allow well-known claims (e.g. ‘sub’ and ‘idp’) to flow through unmolested:
+             * JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+             */
+
             /*
              * Authentication with an additional AddIdentityServerJwt helper method that configures the app to validate JWT tokens produced by IdentityServer:
                 services.AddAuthentication()
@@ -39,6 +47,8 @@ namespace TestWebAPI
                  .AddJwtBearer("JWTBearerToken", options =>
                  {
                      options.Authority = "https://localhost:5001";
+                     //options.Audience = "api1";
+                     options.RequireHttpsMetadata = false;
                      options.TokenValidationParameters =
                      new TokenValidationParameters
                      {
@@ -54,6 +64,10 @@ namespace TestWebAPI
                     policy.RequireAuthenticatedUser();
                     policy.RequireClaim("scope", "api1");
                 });
+                options.AddPolicy("UserSecure", policy =>
+                    policy.RequireClaim("userRole", "endUser"));
+                options.AddPolicy("AdminSecure",
+                    policy => policy.RequireClaim("userRole", "clientAdmin"));
             });
 
         }
@@ -86,7 +100,7 @@ namespace TestWebAPI
                  * You can now enforce this policy at various levels, e.g.
                     globally
                     for all API endpoints
-                    for specific controllers/actions
+                    for specific controllers/actions using [Authorize] attribute
                  * Typically you setup the policy for all API endpoints in the routing system:
                  */
                 .RequireAuthorization("AuthorizeByApiScope");
