@@ -25,7 +25,7 @@ namespace IdentityAuthServer
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            // JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
         }
 
         public IConfiguration Configuration { get; }
@@ -68,7 +68,6 @@ namespace IdentityAuthServer
                 .AddDeveloperSigningCredential()
                 /*
                  * IdentityServer with an additional AddApiAuthorization helper method that sets up some default ASP.NET Core conventions on top of IdentityServer:
-                 * 
                  */
                 // .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
