@@ -1,201 +1,876 @@
 {
 	"info": {
-		"_postman_id": "13530501-3819-4c7a-9a72-260c263495ed",
+		"_postman_id": "7c04b1e0-9179-4529-aed0-32540665e6ba",
 		"name": "IdentityAuthServer",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "https://localhost:5001/.well-known/openid-configuration",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:5001/.well-known/openid-configuration",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "5001",
-					"path": [
-						".well-known",
-						"openid-configuration"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "https://localhost:5001/api/account/register",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"Email\": \"testuser2@gmail.com\",\r\n    \"Password\": \"Testuser@123\",\r\n    \"ConfirmPassword\": \"Testuser@123\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "5001",
+			"item": [
+				{
+					"name": "https://localhost:5001/.well-known/openid-configuration",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:5001/.well-known/openid-configuration",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								".well-known",
+								"openid-configuration"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "https://localhost:5001/api/account/register",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "5001",
-					"path": [
-						"api",
-						"account",
-						"register"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "https://localhost:5001/api/account/test",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:5001/api/account/test",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "5001",
-					"path": [
-						"api",
-						"account",
-						"test"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "https://localhost:5001/api/account/login",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"Email\": \"testuser2@gmail.com\",\r\n    \"Password\": \"Testuser@123\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "https://localhost:5001/api/account/register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Email\": \"testuser19@gmail.com\",\r\n    \"Password\": \"Testuser@123\",\r\n    \"ConfirmPassword\": \"Testuser@123\",\r\n    \"UserRole\": \"endUser\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5001/api/account/register",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"account",
+								"register"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "https://localhost:5001/api/account/login",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "5001",
-					"path": [
-						"api",
-						"account",
-						"login"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "https://localhost:6001/api/identity",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:6001/api/identity",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "6001",
-					"path": [
-						"api",
-						"identity"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "https://localhost:6001/api/identity/test",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:6001/api/identity/test",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "6001",
-					"path": [
-						"api",
-						"identity",
-						"test"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "https://localhost:6001/identity",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:6001/identity",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "6001",
-					"path": [
-						"identity"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "https://localhost:6001/api/identity/test",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "XwA9VpkyoWlnCjeV2cKUGJZsg_cc8QPJZgUyUErHo2E",
-							"type": "string"
+				{
+					"name": "https://localhost:5001/api/account/test",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:5001/api/account/test",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"account",
+								"test"
+							]
 						}
-					]
+					},
+					"response": []
 				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:6001/api/identity/test",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "6001",
-					"path": [
-						"api",
-						"identity",
-						"test"
-					]
+				{
+					"name": "https://localhost:5001/api/account/login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Email\": \"testuser2@gmail.com\",\r\n    \"Password\": \"Testuser@123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5001/api/account/login",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"account",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:5001/connect/token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "clientId_for_public_user_api",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "secret",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "api1",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "Normal",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5001/connect/token",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:5001/connect/token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "clientId_for_claims_based_api",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "secret",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "api1",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "testuser@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Testuser@123",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://localhost:5001/connect/token",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:5001/api/account/login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Email\": \"testuser@gmail.com\",\r\n    \"Password\": \"Testuser@123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5001/api/account/login",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"account",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:5001/connect/token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "clientId_for_claims_based_api",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "secret",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "api1 customRoleClaim",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "testuser19@gmail.com",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "Testuser@123",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "testuser20@gmail.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://localhost:5001/connect/token",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:5001/connect/token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "clientId_for_claims_based_api",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "secret",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "api1",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "user",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "user",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://localhost:5001/connect/token",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:5001/connect/userinfo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IkUxMTBBQzUzRjU5MzQzMzY0NDJCMTU3N0YwNjVDNkFCIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE1OTYzOTA3NzQsImV4cCI6MTU5NjM5NDM3NCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMSIsImNsaWVudF9pZCI6ImNsaWVudElkX2Zvcl9jbGFpbXNfYmFzZWRfYXBpIiwic3ViIjoiZGM2YWY4NWEtZjJjMi00MmU0LTkwZTEtZDQ1ZmZlYzIxNmUwIiwiYXV0aF90aW1lIjoxNTk2MzkwNzY4LCJpZHAiOiJsb2NhbCIsImp0aSI6IjZGNDNDNDdDQTMxOEVDQkYwRDM1MDk3NUUwOTcwRDg4IiwiaWF0IjoxNTk2MzkwNzczLCJzY29wZSI6WyJhcGkxIiwiY3VzdG9tUm9sZUNsYWltIiwicHJvZmlsZSJdLCJhbXIiOlsicHdkIl19.VsJ1hFhXHhIX-4hUZDy1UraZXXnG9272TjB-7xcf-_PkTpFukO1KeEY3LAJ0H5hmwqZE3yulJjf04Zc7yREzpK9IwqZQb3MVTlFMavxRo4Xa-IP-lPQACOvtYWR_QKDi-JBREsxFapTa8l2qxlXqaht3ptT9b_F7ePYiE6MpqoBb2F9WJ_b9NFOVSudMD1lnNiCkjj9GxfBX1Atk_lVaO-zNKHgPULOLH5yvs-9YZlCG8vSGTBUD96Q-l6rYh4SnRUTUoJeIw-OIxQNHaApguhu8pAgRna0q1K98tj5ebe88hm4Uy7bobtce0b89JEUM9FYFtJx5ayVeK9RUPEj6Gg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:5001/connect/userinfo",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"connect",
+								"userinfo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:5001/connect/token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "custom_claims",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "secret",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "testuser19@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Testuser@123",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "api1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://localhost:5001/connect/token",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:5001/api/account/register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Email\": \"testuser20@gmail.com\",\r\n    \"Password\": \"Testuser@123\",\r\n    \"ConfirmPassword\": \"Testuser@123\",\r\n    \"UserRole\": \"clientAdmin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5001/api/account/register",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"account",
+								"register"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "6001",
+			"item": [
+				{
+					"name": "https://localhost:6001/api/identity",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:6001/api/identity",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "6001",
+							"path": [
+								"api",
+								"identity"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:6001/api/identity/test",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IkUxMTBBQzUzRjU5MzQzMzY0NDJCMTU3N0YwNjVDNkFCIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE1OTU3MzcyMTAsImV4cCI6MTU5NTc0MDgxMCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMSIsImNsaWVudF9pZCI6ImNsaWVudCIsImp0aSI6IjY3NzFGMUEyQTEyN0NENTA5NjI4NzRGNERDMTBCRkQ4IiwiaWF0IjoxNTk1NzM3MjA5LCJzY29wZSI6WyJhcGkxIl19.ZM1uLG56uIRsmKQosMhhvyRJF_t-bkc8kSLWhL3NnWlVoHZ108WXJzUARPc6ov0SquqiM2UopsHPDOWxu0XlInRQ4rxgWmBhejttRaxUHUJjSJAIA6r6PMDN_Xp-HbFZ8ClpeZtlE6c-qcpB3ncV4SLbthHfayar2iQCjXIpIJjw1gNm5yGcjUVCXGNSVvcI802IKFLol0b_Vd0ZMyVjDogThs69jMtokRsj7QRj48nr5_HAc77Dh5Ipwt5shSsvqa5vrkDrIzUxqH5NbQN8LjdSA8XViBma4bT5gixtbpo7L33Woqb0oBmeBLOSxhe01bH073ISi7z23CGzrPJ1Pg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:6001/api/identity/test",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "6001",
+							"path": [
+								"api",
+								"identity",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:6001/identity",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:6001/identity",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "6001",
+							"path": [
+								"identity"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:6001/api/identity/test",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IkUxMTBBQzUzRjU5MzQzMzY0NDJCMTU3N0YwNjVDNkFCIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE1OTY2MDE3MDcsImV4cCI6MTU5NjYwNTMwNywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMSIsImNsaWVudF9pZCI6ImNsaWVudElkX2Zvcl9jbGFpbXNfYmFzZWRfYXBpIiwiY2xpZW50X3JvbGVUeXBlIjoiQ2xpZW50QWRtaW4iLCJzdWIiOiI0ZThhYmQ5MC05NmJjLTQxZGYtYjYyNS1hOWI1ZGM2ZDdiY2QiLCJhdXRoX3RpbWUiOjE1OTY2MDE3MDEsImlkcCI6ImxvY2FsIiwidXNlclJvbGUiOiJlbmRVc2VyIiwianRpIjoiRTdCOEY0NjBEOEU4MjlEMURCQTlEMTREMkY0NDkwRDEiLCJpYXQiOjE1OTY2MDE3MDcsInNjb3BlIjpbImFwaTEiLCJjdXN0b21Sb2xlQ2xhaW0iLCJwcm9maWxlIl0sImFtciI6WyJwd2QiXX0.XvaJVerntPx4nYMd__1YmiFuCEswHOyEinL0jgZOvLdiKQSoHuODd7Fv1k23ky3x1752sABkLQtj_YBiAnXoYGx1Ybfbpa5J4aRpOww8vTKSOGSwgNa85lJnvUn5cSs7d7bDGRuNm_C7Dmtx-NajjhgPaugjZpnMI97gU_G_W-xYphuztDQ8Dr336OKcGnqTzoqVeOc2xFsFxcUi27iO2Hiwc9PWGVTcfjEleMC_Dd4qemLMaivcTGTQwQooYmVN-l346wXpkFJ21rbnCnZeTL_rMu8nPrZnL-1wpEg6dZHYE5aVSgLJHQqX3xSrdXYMhRD1lu6hUNE3QeGCOHLDqQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:6001/api/identity/test",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "6001",
+							"path": [
+								"api",
+								"identity",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:6001/api/identity/claims",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IkUxMTBBQzUzRjU5MzQzMzY0NDJCMTU3N0YwNjVDNkFCIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE1OTY2MDM0NzUsImV4cCI6MTU5NjYwNzA3NSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMSIsImNsaWVudF9pZCI6ImNsaWVudElkX2Zvcl9jbGFpbXNfYmFzZWRfYXBpIiwiY2xpZW50X3JvbGVUeXBlIjoiQ2xpZW50QWRtaW4iLCJzdWIiOiI0ZmIzMzFkZi1mOGYzLTQyYjAtYmEyYS0zNDRlOGFhOWM5ZDAiLCJhdXRoX3RpbWUiOjE1OTY2MDM0NzUsImlkcCI6ImxvY2FsIiwidXNlclJvbGUiOiJjbGllbnRBZG1pbiIsImp0aSI6IjhCQzYxQUNBM0VBMUYwOUUxQzVFMTkxQjVFMEZFNDUxIiwiaWF0IjoxNTk2NjAzNDc1LCJzY29wZSI6WyJhcGkxIiwiY3VzdG9tUm9sZUNsYWltIl0sImFtciI6WyJwd2QiXX0.SI9zcEBeFPgZmJg4QsmeU9dMgCe46KKP4Vx5gH_mrqnheIrf0zPwyejdEnpc5d7m6H75lQ1GC1t2-2EK8_Bq8wJcpnD-rZDVPgs6WOsoW_dDasQz1XVe4ptyD2Q1YACMuSKBXcg1ofOKDe6s4bOZq5sqfkAx79WU0Fdm7NdASV7HmcH23yYi85cKwZUU_mqzcel3kHH2EYtvFDR2cYPmgSU-LyxfPVkES-URbKUaoTBl9JzGpnIyieOKXi8pO64s8H3TXx7GqoePOLuuHJsxpABhnnw4Q2QOMs6-mcYyd6DHgq8_Zq3zf2yH26Yk4tHtL58f9deiaX_ZWAHaEU6rWA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:6001/api/identity/claims",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "6001",
+							"path": [
+								"api",
+								"identity",
+								"claims"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:6001/api/identity/enduser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IkUxMTBBQzUzRjU5MzQzMzY0NDJCMTU3N0YwNjVDNkFCIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE1OTY2MDMzODMsImV4cCI6MTU5NjYwNjk4MywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMSIsImNsaWVudF9pZCI6ImNsaWVudElkX2Zvcl9jbGFpbXNfYmFzZWRfYXBpIiwiY2xpZW50X3JvbGVUeXBlIjoiQ2xpZW50QWRtaW4iLCJzdWIiOiI0ZThhYmQ5MC05NmJjLTQxZGYtYjYyNS1hOWI1ZGM2ZDdiY2QiLCJhdXRoX3RpbWUiOjE1OTY2MDMzODMsImlkcCI6ImxvY2FsIiwidXNlclJvbGUiOiJlbmRVc2VyIiwianRpIjoiMUFCNDMxMEZENTg1NjlCRjczNEIzMTJEQkY2RDk0NzQiLCJpYXQiOjE1OTY2MDMzODMsInNjb3BlIjpbImFwaTEiLCJjdXN0b21Sb2xlQ2xhaW0iXSwiYW1yIjpbInB3ZCJdfQ.rymyQujX46yZTkAnWb7jhnKM3-AN2WGJr5k3zJ6arOzTml56xUaJicJPlih56r9nJjCmjQ5q6da5v5wa1ANtCmrI9M2bR_-oJHP40JT4oheilFwFXUqZJWjokbH6L0nntDTN-E0bGONP5DDDn1mWVMQnUCFj4lsevl9Mi2CyXszD6OQfi0zW1jGzh-9Bv0mwYsHzmoj3EG82l4S71FgoBELza-wilBNdLtKZPBx_1DgvFN3tvY_aALECOCJXnycXT_cPEjKNT52hANE3EZKmLCRijn2i3tjFKPRbHuDMaCmHzCa-q_EEWGBFD_hOdGi15_y59R7YLUSgfCPoOHxexQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:6001/api/identity/enduser",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "6001",
+							"path": [
+								"api",
+								"identity",
+								"enduser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:6001/api/identity/clientadmi",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IkUxMTBBQzUzRjU5MzQzMzY0NDJCMTU3N0YwNjVDNkFCIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE1OTY2MDM0NzUsImV4cCI6MTU5NjYwNzA3NSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMSIsImNsaWVudF9pZCI6ImNsaWVudElkX2Zvcl9jbGFpbXNfYmFzZWRfYXBpIiwiY2xpZW50X3JvbGVUeXBlIjoiQ2xpZW50QWRtaW4iLCJzdWIiOiI0ZmIzMzFkZi1mOGYzLTQyYjAtYmEyYS0zNDRlOGFhOWM5ZDAiLCJhdXRoX3RpbWUiOjE1OTY2MDM0NzUsImlkcCI6ImxvY2FsIiwidXNlclJvbGUiOiJjbGllbnRBZG1pbiIsImp0aSI6IjhCQzYxQUNBM0VBMUYwOUUxQzVFMTkxQjVFMEZFNDUxIiwiaWF0IjoxNTk2NjAzNDc1LCJzY29wZSI6WyJhcGkxIiwiY3VzdG9tUm9sZUNsYWltIl0sImFtciI6WyJwd2QiXX0.SI9zcEBeFPgZmJg4QsmeU9dMgCe46KKP4Vx5gH_mrqnheIrf0zPwyejdEnpc5d7m6H75lQ1GC1t2-2EK8_Bq8wJcpnD-rZDVPgs6WOsoW_dDasQz1XVe4ptyD2Q1YACMuSKBXcg1ofOKDe6s4bOZq5sqfkAx79WU0Fdm7NdASV7HmcH23yYi85cKwZUU_mqzcel3kHH2EYtvFDR2cYPmgSU-LyxfPVkES-URbKUaoTBl9JzGpnIyieOKXi8pO64s8H3TXx7GqoePOLuuHJsxpABhnnw4Q2QOMs6-mcYyd6DHgq8_Zq3zf2yH26Yk4tHtL58f9deiaX_ZWAHaEU6rWA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:6001/api/identity/clientadmin",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "6001",
+							"path": [
+								"api",
+								"identity",
+								"clientadmin"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "7001",
+			"item": [
+				{
+					"name": "https://localhost:7001/api/testpolicyauth/public",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IkUxMTBBQzUzRjU5MzQzMzY0NDJCMTU3N0YwNjVDNkFCIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE1OTY2MDM5OTgsImV4cCI6MTU5NjYwNzU5OCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMSIsImNsaWVudF9pZCI6ImNsaWVudElkX2Zvcl9jbGFpbXNfYmFzZWRfYXBpIiwiY2xpZW50X3JvbGVUeXBlIjoiQ2xpZW50QWRtaW4iLCJzdWIiOiI0ZmIzMzFkZi1mOGYzLTQyYjAtYmEyYS0zNDRlOGFhOWM5ZDAiLCJhdXRoX3RpbWUiOjE1OTY2MDM5OTgsImlkcCI6ImxvY2FsIiwidXNlclJvbGUiOiJjbGllbnRBZG1pbiIsImp0aSI6IjBBRDQ3NDkxMjdGNTMxQTBBODBDRjVENDFFMThEOUE1IiwiaWF0IjoxNTk2NjAzOTk4LCJzY29wZSI6WyJhcGkxIiwiY3VzdG9tUm9sZUNsYWltIl0sImFtciI6WyJwd2QiXX0.noKFTxLco3VDgc85EknT_T703hRTfZqdnqPuoEtX_MhzW5mk2yavw8jYzzAEpqBXYBU5cFNoqN6E7RPauhxR-b2FSkhnxMM8efzqEbNIPqWQI5lYCjZz9XZ_0jZfFyneRXoF-hbg3eUdZ6-vGmIlya4PRYHyRpGnZj1zPz1GEMD1Vi8i84BTEua55cJw0Y459WZGaxkXC9g__L-xj_ftU1pgU5X6QsTI73chH4mlEZf5MjuQ3SAtLoAZJ1ZP4HjujNfOWiPC9BfYTNw8X4k61RyfTSHuF1jjICtWr460v-Ic9KaA3B6T_LDQP6wWc-g5gJnuT4Bmfbb28HgJbCcSxQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7001/api/testpolicyauth/public",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7001",
+							"path": [
+								"api",
+								"testpolicyauth",
+								"public"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:7001/api/testpolicyauth/user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IkUxMTBBQzUzRjU5MzQzMzY0NDJCMTU3N0YwNjVDNkFCIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE1OTY2MDE3MDcsImV4cCI6MTU5NjYwNTMwNywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMSIsImNsaWVudF9pZCI6ImNsaWVudElkX2Zvcl9jbGFpbXNfYmFzZWRfYXBpIiwiY2xpZW50X3JvbGVUeXBlIjoiQ2xpZW50QWRtaW4iLCJzdWIiOiI0ZThhYmQ5MC05NmJjLTQxZGYtYjYyNS1hOWI1ZGM2ZDdiY2QiLCJhdXRoX3RpbWUiOjE1OTY2MDE3MDEsImlkcCI6ImxvY2FsIiwidXNlclJvbGUiOiJlbmRVc2VyIiwianRpIjoiRTdCOEY0NjBEOEU4MjlEMURCQTlEMTREMkY0NDkwRDEiLCJpYXQiOjE1OTY2MDE3MDcsInNjb3BlIjpbImFwaTEiLCJjdXN0b21Sb2xlQ2xhaW0iLCJwcm9maWxlIl0sImFtciI6WyJwd2QiXX0.XvaJVerntPx4nYMd__1YmiFuCEswHOyEinL0jgZOvLdiKQSoHuODd7Fv1k23ky3x1752sABkLQtj_YBiAnXoYGx1Ybfbpa5J4aRpOww8vTKSOGSwgNa85lJnvUn5cSs7d7bDGRuNm_C7Dmtx-NajjhgPaugjZpnMI97gU_G_W-xYphuztDQ8Dr336OKcGnqTzoqVeOc2xFsFxcUi27iO2Hiwc9PWGVTcfjEleMC_Dd4qemLMaivcTGTQwQooYmVN-l346wXpkFJ21rbnCnZeTL_rMu8nPrZnL-1wpEg6dZHYE5aVSgLJHQqX3xSrdXYMhRD1lu6hUNE3QeGCOHLDqQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7001/api/testpolicyauth/user",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7001",
+							"path": [
+								"api",
+								"testpolicyauth",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:7001/api/testpolicyauth/admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IkUxMTBBQzUzRjU5MzQzMzY0NDJCMTU3N0YwNjVDNkFCIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE1OTY2MDM4MDcsImV4cCI6MTU5NjYwNzQwNywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMSIsImNsaWVudF9pZCI6ImNsaWVudElkX2Zvcl9jbGFpbXNfYmFzZWRfYXBpIiwiY2xpZW50X3JvbGVUeXBlIjoiQ2xpZW50QWRtaW4iLCJzdWIiOiI0ZmIzMzFkZi1mOGYzLTQyYjAtYmEyYS0zNDRlOGFhOWM5ZDAiLCJhdXRoX3RpbWUiOjE1OTY2MDM4MDYsImlkcCI6ImxvY2FsIiwidXNlclJvbGUiOiJjbGllbnRBZG1pbiIsImp0aSI6IkUzNjM4MjBDQTEwMTFFODA0NzVCMTU5QjcwN0VBRkQ3IiwiaWF0IjoxNTk2NjAzODA2LCJzY29wZSI6WyJhcGkxIiwiY3VzdG9tUm9sZUNsYWltIl0sImFtciI6WyJwd2QiXX0.V44Yooyzq8RiTGIjbhzuy7RJO3SPdVXHRDiJQm0yKhTMvUULKuFgZCLXs7YMk9kxFDUoZxXNKvM7KymvC800CUxBEUjMEBO7gMmHskWaEVtNCmu621rsaTGG1IVEKppeT26GrIO6ZazURjLa68maqX9ZEMQGSzgSJcjowpbvfb7XwLKD7Sxiu47dIyAo6o2PEtaT81hs7bgPSPV4IFFY7dfbtriacPCwK32KrJlWsrCPz6S0c1H_WtBseApl-n9PBW6U947agN6l25G_o5kSnP8XtHibd5CHdQ0MywH8qdHgNaLPTXorFFtqFceYjHe-glX6vK_PNuUDcBzrzgC-rw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7001/api/testpolicyauth/admin",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7001",
+							"path": [
+								"api",
+								"testpolicyauth",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:7001/api/testpolicyauth/test",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7001/api/testpolicyauth/test",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7001",
+							"path": [
+								"api",
+								"testpolicyauth",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:7001/api/testpolicyauth/test",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IkUxMTBBQzUzRjU5MzQzMzY0NDJCMTU3N0YwNjVDNkFCIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE1OTY2MDE3MDcsImV4cCI6MTU5NjYwNTMwNywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMSIsImNsaWVudF9pZCI6ImNsaWVudElkX2Zvcl9jbGFpbXNfYmFzZWRfYXBpIiwiY2xpZW50X3JvbGVUeXBlIjoiQ2xpZW50QWRtaW4iLCJzdWIiOiI0ZThhYmQ5MC05NmJjLTQxZGYtYjYyNS1hOWI1ZGM2ZDdiY2QiLCJhdXRoX3RpbWUiOjE1OTY2MDE3MDEsImlkcCI6ImxvY2FsIiwidXNlclJvbGUiOiJlbmRVc2VyIiwianRpIjoiRTdCOEY0NjBEOEU4MjlEMURCQTlEMTREMkY0NDkwRDEiLCJpYXQiOjE1OTY2MDE3MDcsInNjb3BlIjpbImFwaTEiLCJjdXN0b21Sb2xlQ2xhaW0iLCJwcm9maWxlIl0sImFtciI6WyJwd2QiXX0.XvaJVerntPx4nYMd__1YmiFuCEswHOyEinL0jgZOvLdiKQSoHuODd7Fv1k23ky3x1752sABkLQtj_YBiAnXoYGx1Ybfbpa5J4aRpOww8vTKSOGSwgNa85lJnvUn5cSs7d7bDGRuNm_C7Dmtx-NajjhgPaugjZpnMI97gU_G_W-xYphuztDQ8Dr336OKcGnqTzoqVeOc2xFsFxcUi27iO2Hiwc9PWGVTcfjEleMC_Dd4qemLMaivcTGTQwQooYmVN-l346wXpkFJ21rbnCnZeTL_rMu8nPrZnL-1wpEg6dZHYE5aVSgLJHQqX3xSrdXYMhRD1lu6hUNE3QeGCOHLDqQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7001/api/testpolicyauth/test",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7001",
+							"path": [
+								"api",
+								"testpolicyauth",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:7001/api/testpolicyauth/scope",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IkUxMTBBQzUzRjU5MzQzMzY0NDJCMTU3N0YwNjVDNkFCIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE1OTY2MDE3MDcsImV4cCI6MTU5NjYwNTMwNywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMSIsImNsaWVudF9pZCI6ImNsaWVudElkX2Zvcl9jbGFpbXNfYmFzZWRfYXBpIiwiY2xpZW50X3JvbGVUeXBlIjoiQ2xpZW50QWRtaW4iLCJzdWIiOiI0ZThhYmQ5MC05NmJjLTQxZGYtYjYyNS1hOWI1ZGM2ZDdiY2QiLCJhdXRoX3RpbWUiOjE1OTY2MDE3MDEsImlkcCI6ImxvY2FsIiwidXNlclJvbGUiOiJlbmRVc2VyIiwianRpIjoiRTdCOEY0NjBEOEU4MjlEMURCQTlEMTREMkY0NDkwRDEiLCJpYXQiOjE1OTY2MDE3MDcsInNjb3BlIjpbImFwaTEiLCJjdXN0b21Sb2xlQ2xhaW0iLCJwcm9maWxlIl0sImFtciI6WyJwd2QiXX0.XvaJVerntPx4nYMd__1YmiFuCEswHOyEinL0jgZOvLdiKQSoHuODd7Fv1k23ky3x1752sABkLQtj_YBiAnXoYGx1Ybfbpa5J4aRpOww8vTKSOGSwgNa85lJnvUn5cSs7d7bDGRuNm_C7Dmtx-NajjhgPaugjZpnMI97gU_G_W-xYphuztDQ8Dr336OKcGnqTzoqVeOc2xFsFxcUi27iO2Hiwc9PWGVTcfjEleMC_Dd4qemLMaivcTGTQwQooYmVN-l346wXpkFJ21rbnCnZeTL_rMu8nPrZnL-1wpEg6dZHYE5aVSgLJHQqX3xSrdXYMhRD1lu6hUNE3QeGCOHLDqQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7001/api/testpolicyauth/scope",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7001",
+							"path": [
+								"api",
+								"testpolicyauth",
+								"scope"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
 		}
 	],
 	"protocolProfileBehavior": {}
