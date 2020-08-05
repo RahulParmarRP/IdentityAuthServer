@@ -26,9 +26,9 @@ namespace IdentityAuthServer
                     DisplayName="Your profile data",
                     UserClaims =
                     {
-                        "UserRole",
-                        "TestRole",
-                        "roleType"
+                        "userRole",
+                        //"TestRole",
+                        //"roleType"
                     }
                 }
             };
@@ -41,7 +41,7 @@ namespace IdentityAuthServer
                 JwtClaimTypes.Name,
                 JwtClaimTypes.Email,
                 JwtClaimTypes.Profile,
-                "UserRole","TestRole","roleType"
+                "userRole","TestRole","roleType"
             };
 
             return new List<ApiResource>
@@ -104,7 +104,7 @@ namespace IdentityAuthServer
                         "api1",
                         StandardScopes.Profile,
                         StandardScopes.Email,
-                        StandardScopes.OpenId,
+                        //StandardScopes.OpenId,
                         //"read", "write", "delete",
                         "customRoleClaim"
                     },
