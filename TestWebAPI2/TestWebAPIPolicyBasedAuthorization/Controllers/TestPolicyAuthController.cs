@@ -12,6 +12,13 @@ namespace TestWebAPIPolicyBasedAuthorization.Controllers
     [ApiController]
     public class TestPolicyAuthController : ControllerBase
     {
+        [HttpGet("test")]
+        [Authorize(Policy = "AuthorizeByApiScope")]
+        public ActionResult GetTestData()
+        {
+            return Ok("this is test data");
+        }
+
         [Authorize(Policy = "PublicSecure")]
         [HttpGet("public")]
         public ActionResult GetPublicData()
@@ -26,11 +33,18 @@ namespace TestWebAPIPolicyBasedAuthorization.Controllers
             return Ok("this is user data");
         }
 
-        [Authorize(Policy = "AdminSecure")]
         [HttpGet("admin")]
+        [Authorize(Policy = "AdminSecure")]
         public ActionResult UpdateAdminData()
         {
             return Ok("admin has updated the data");
+        }
+
+        [HttpGet("scope")]
+        [Authorize(Policy = "AuthorizeByApiScope")]
+        public ActionResult AuthorizeByApiScope()
+        {
+            return Ok("AuthorizeByApiScope");
         }
     }
 }
