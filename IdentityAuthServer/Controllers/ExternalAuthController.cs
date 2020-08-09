@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IdentityAuthServer.Models;
 using IdentityAuthServer.ViewModel;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using static Google.Apis.Auth.GoogleJsonWebSignature;
 
 namespace IdentityAuthServer.Controllers
 {
@@ -12,6 +15,19 @@ namespace IdentityAuthServer.Controllers
     [ApiController]
     public class ExternalAuthController : ControllerBase
     {
+
+        // asp identity
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
+
+        public ExternalAuthController(
+        UserManager<AppUser> userManager,
+        SignInManager<AppUser> signInManager
+        )
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+        }
         /*
          * Verify the integrity of the ID token
             After you receive the ID token by HTTPS POST, you must verify the integrity of the token. To verify that the token is valid, ensure that the following criteria are satisfied:
@@ -71,7 +87,70 @@ if (idToken != null) {
   System.out.println("Invalid ID token.");
 }
              */
-            return Ok();
+
+            Payload payload;
+            try
+            {
+                var validationSettings = new ValidationSettings
+                {
+                    //Audience = new[] { "YOUR_CLIENT_ID" }
+                };
+
+                payload = await ValidateAsync(externalLoginModel.IdToken, validationSettings);
+                // It is important to add your ClientId as an audience in order to make sure
+                // that the token is for your application!
+                var user = await GetOrCreateExternalLoginUser(
+                    "google",
+                    payload.Subject,
+                    payload.Email
+                    );
+                //var token = await GenerateToken(user);
+                return new JsonResult(Ok("token"));
+            }
+            catch
+            {
+                // Invalid token
+            }
+            return BadRequest();
         }
+
+        public async Task<AppUser> GetOrCreateExternalLoginUser(
+            string provider,
+            string key,
+            string email)
+        {
+            // Login already linked to a user
+            var user = await _userManager.FindByLoginAsync(provider, key);
+            if (user != null)
+                return user;
+
+            user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                // No user exists with this email address, we create a new one
+                user = new AppUser
+                {
+                    Email = email,
+                    UserName = email
+                };
+
+                await _userManager.CreateAsync(user);
+            }
+
+            // Link the user to this login
+            var info = new UserLoginInfo(provider, key, provider.ToUpperInvariant());
+            var result = await _userManager.AddLoginAsync(user, info);
+            if (result.Succeeded)
+                return user;
+
+            return null;
+        }
+
+        // How to generate a JWT token is not in this post's scope
+        //public async Task<string> GenerateToken(User user)
+        //{
+        //    var claims = await GetUserClaims(user);
+        //    return GenerateToken(user, claims);
+        //}
     }
 }
