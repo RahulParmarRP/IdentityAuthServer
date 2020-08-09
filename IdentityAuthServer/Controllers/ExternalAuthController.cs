@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using IdentityAuthServer.Models;
 using IdentityAuthServer.ViewModel;
+using IdentityModel.Client;
+using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -89,6 +92,7 @@ if (idToken != null) {
              */
 
             Payload payload;
+            var provider = "google";
             try
             {
                 var validationSettings = new ValidationSettings
@@ -102,9 +106,72 @@ if (idToken != null) {
                 var user = await GetOrCreateExternalLoginUser(
                     "google",
                     payload.Subject,
-                    payload.Email
-                    );
+                    payload.Email);
+
+                // way 1
                 //var token = await GenerateToken(user);
+
+
+                // way 2
+                /// add extra claims for the external login user
+                // If they exist, add claims to the user for:
+                //    Given (first) name
+                //    Locale
+                //    Picture
+                // Get the information about the user from the external login provider
+                //var info = await _signInManager.GetExternalLoginInfoAsync();
+                //if (info.Principal.HasClaim(c => c.Type == "urn:google:picture"))
+                //{
+                //    await _userManager.AddClaimAsync(user,
+                //        info.Principal.FindFirst("urn:google:picture"));
+                //}
+                // Include the access token in the properties
+                //var props = new AuthenticationProperties();
+                //props.StoreTokens(info.AuthenticationTokens);
+                //props.IsPersistent = true;
+                //await _signInManager.SignInAsync(user, props);
+
+
+
+
+                // way 3 
+                //var client = new HttpClient();
+                //var tokenreq = new TokenRequest()
+                //{
+                //    Address = "https://demo.identityserver.io/connect/token",
+                //    GrantType = "custom",
+                //    ClientId = "client",
+                //    ClientSecret = "secret",
+                //    Parameters = {
+                //        { "custom_parameter", "custom value"},
+                //        { "scope", "api1" }
+                //    }
+                //};
+                //var response = await client.RequestTokenAsync(tokenreq);
+
+
+
+                // way 4
+                //var user = await _userManager.FindByLoginAsync(provider, externalId);
+                //if (null != user)
+                //{
+                //    user = await _userManager.FindByIdAsync(user.Id);
+                //    var userClaims = await _userManager.GetClaimsAsync(user);
+                //    context.Result = new GrantValidationResult(user.Id, provider, userClaims, provider, null);
+                //    return;
+                //}
+
+                //if (user != null)
+                //{
+                //    user = await _userManager.FindByIdAsync(user.Id);
+                //    var userClaims = await _userManager.GetClaimsAsync(user);
+                //    context.Result = new GrantValidationResult(
+                //        user.Id,
+                //        provider,
+                //        userClaims,
+                //        provider,
+                //        null);
+                //}
                 return new JsonResult(Ok("token"));
             }
             catch
@@ -143,6 +210,7 @@ if (idToken != null) {
             if (result.Succeeded)
                 return user;
 
+            // if nothing can be done return null user
             return null;
         }
 
@@ -152,5 +220,55 @@ if (idToken != null) {
         //    var claims = await GetUserClaims(user);
         //    return GenerateToken(user, claims);
         //}
+
+
+
+
+
+        /*
+         * public static async Task<JObject> GenerateLocalAccessTokenResponse(string userName, string role, string userId, string clientId, string provider)
+    {
+
+        var tokenExpiration = TimeSpan.FromDays(1);
+
+        var identity = new ClaimsIdentity(OAuthDefaults.AuthenticationType);
+
+        identity.AddClaim(new Claim(ClaimTypes.Name, userName));
+        identity.AddClaim(new Claim("ClientId", clientId));
+        identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userId));
+        identity.AddClaim(new Claim(ClaimTypes.Role, role));
+
+
+        var data = new Dictionary<string, string>
+        {
+            {"userName", userName},
+            {"client_id", clientId},
+            {"role", role},
+            {"provider", provider},
+            {"userId", userId}
+        };
+
+        var props = new AuthenticationProperties(data);
+
+        var ticket = new AuthenticationTicket(identity, props);
+
+        var accessToken = Startup.OAuthOptions.AccessTokenFormat.Protect(ticket);
+
+        var tokenResponse = new JObject(
+            new JProperty("userName", userName),
+            new JProperty("client_id", clientId),
+            new JProperty("role", role),
+            new JProperty("provider", provider),
+            new JProperty("userId", userId),
+            new JProperty("access_token", accessToken),
+            new JProperty("token_type", "bearer"),
+            new JProperty("expires_in", tokenExpiration.TotalSeconds.ToString()),
+            new JProperty(".issued", ticket.Properties.IssuedUtc.ToString()),
+            new JProperty(".expires", ticket.Properties.ExpiresUtc.ToString())
+            );
+
+        return tokenResponse;
+    }
+        */
     }
 }
