@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IdentityAuthServer.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,8 +23,8 @@ namespace IdentityAuthServer.Controllers
             Rather than writing your own code to perform these verification steps, we strongly recommend using a Google API client library for your platform, or a general-purpose JWT library. For development and debugging, you can call our tokeninfo validation endpoint.
          */
         [HttpPost]
-        [Route("authgoogle")]
-        public async Task<IActionResult> AuthenticateGoogleSignin(string idToken)
+        [Route("google")]
+        public async Task<IActionResult> AuthenticateGoogleSignin(ExternalLoginModel externalLoginModel)
         {
 
             /*
