@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "7c04b1e0-9179-4529-aed0-32540665e6ba",
+		"_postman_id": "708fd13c-6eba-42b1-a31e-a5d5f2eaa3f7",
 		"name": "IdentityAuthServer",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -486,6 +486,36 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "https://localhost:5001/api/externalauth/google",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"IdToken\": \"eyJhbGciOiJSUzI1NiIsImtpZCI6Ijc0NGY2MGU5ZmI1MTVhMmEwMWMxMWViZWIyMjg3MTI4NjA1NDA3MTEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiNTYzNzcwMDAxODI1LW02MmJoMmExaTU5ZTdwcGVzZXV0bmZjaGU0ZGRrMmtlLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiNTYzNzcwMDAxODI1LW02MmJoMmExaTU5ZTdwcGVzZXV0bmZjaGU0ZGRrMmtlLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTA0OTYyMTA5MTY2ODU3NTAwODUwIiwiaGQiOiJnYXJkaXZpZHlhcGl0aC5hYy5pbiIsImVtYWlsIjoiMTVjc2UwNzlAZ2FyZGl2aWR5YXBpdGguYWMuaW4iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6IkZDbW5qVUlGT2V1dVRTZDJqYTdnbUEiLCJuYW1lIjoiUmFodWwgUGFybWFyIiwicGljdHVyZSI6Imh0dHBzOi8vbGg1Lmdvb2dsZXVzZXJjb250ZW50LmNvbS8tUUJpSGZtSkJtR0UvQUFBQUFBQUFBQUkvQUFBQUFBQUFBQUEvQU1adXVjbU5LekxGRENLNC1ldFlTZjZDWGtxQnlGUWpZdy9zOTYtYy9waG90by5qcGciLCJnaXZlbl9uYW1lIjoiUmFodWwiLCJmYW1pbHlfbmFtZSI6IlBhcm1hciIsImxvY2FsZSI6ImVuIiwiaWF0IjoxNTk2OTU0MjcxLCJleHAiOjE1OTY5NTc4NzEsImp0aSI6ImE1NzEyMjM3Nzk3ZTE4YjAxMzA2MGQ2MDViODBiM2E0ZjQ2MWY4M2QifQ.YOmdpiv1psGRWXWmKYxeOdgoCL4NmlLHRAskxueVhA6ddZJ1J08dcnxx33P-u9Z99PYsQPh7sH1j2pHksiaqD9-kPlY-FLp2byQIzzl68Ty0n4-rHqyhmgqXKQqxN9MPZRB80t3PgKZuTwjoDKLB5OTUICYasAWf98IhsQl99OpmflPp26sCd9C_7PCYsdrVcPHF6H01DbZ734oo87s-z26Z99V4vR13877d3ahNpoFTJurvidwgX5CxvTE0z9swxMs9LV8pKF4gw2O-PoTe7w-cz_p8qdAgKStr8l7yt-11fPdwMBv_1FE5OFbjlT9LVAuJEjBgUkxus1MUZRpoKg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5001/api/externalauth/google",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"externalauth",
+								"google"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -864,6 +894,147 @@
 								"api",
 								"testpolicyauth",
 								"scope"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "17641",
+			"item": [
+				{
+					"name": "http://localhost:17641/.well-known/openid-configuration",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:17641/.well-known/openid-configuration",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "17641",
+							"path": [
+								".well-known",
+								"openid-configuration"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:17641/connect/token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "Test.Client",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "secret",
+									"type": "text"
+								},
+								{
+									"key": "scopes",
+									"value": "profile email",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "external",
+									"type": "text"
+								},
+								{
+									"key": "provider",
+									"value": "google",
+									"type": "text"
+								},
+								{
+									"key": "external_token",
+									"value": "ya29.a0AfH6SMCxDCkVMpy1JaRm6daJk1RSVfWUt9_AT1QEcy9_C-zw6UjL8w8UDBzLqe3Lt3b1Jufs22w9mdpMiVzK1b8tMmoYuhsVDyBwgSn7qFHDYu69A1N5BcILPko1kFNhtJ2PgZFBs6FCquY8Bafyln-aLyJOkqfkft5K",
+									"type": "text"
+								},
+								{
+									"key": "email ",
+									"value": "15cse079@gardividyapith.ac.in",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:17641/connect/token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "17641",
+							"path": [
+								"connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://www.googleapis.com/oauth2/v2/userinfo?access_token=ya29.a0AfH6SMCxDCkVMpy1JaRm6daJk1RSVfWUt9_AT1QEcy9_C-zw6UjL8w8UDBzLqe3Lt3b1Jufs22w9mdpMiVzK1b8tMmoYuhsVDyBwgSn7qFHDYu69A1N5BcILPko1kFNhtJ2PgZFBs6FCquY8Bafyln-aLyJOkqfkft5K",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://www.googleapis.com/oauth2/v2/userinfo?access_token=ya29.a0AfH6SMCxDCkVMpy1JaRm6daJk1RSVfWUt9_AT1QEcy9_C-zw6UjL8w8UDBzLqe3Lt3b1Jufs22w9mdpMiVzK1b8tMmoYuhsVDyBwgSn7qFHDYu69A1N5BcILPko1kFNhtJ2PgZFBs6FCquY8Bafyln-aLyJOkqfkft5K",
+							"protocol": "https",
+							"host": [
+								"www",
+								"googleapis",
+								"com"
+							],
+							"path": [
+								"oauth2",
+								"v2",
+								"userinfo"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "ya29.a0AfH6SMCxDCkVMpy1JaRm6daJk1RSVfWUt9_AT1QEcy9_C-zw6UjL8w8UDBzLqe3Lt3b1Jufs22w9mdpMiVzK1b8tMmoYuhsVDyBwgSn7qFHDYu69A1N5BcILPko1kFNhtJ2PgZFBs6FCquY8Bafyln-aLyJOkqfkft5K"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://oauth2.googleapis.com/tokeninfo?id_token=eyJhbGciOiJSUzI1NiIsImtpZCI6Ijc0NGY2MGU5ZmI1MTVhMmEwMWMxMWViZWIyMjg3MTI4NjA1NDA3MTEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiNTYzNzcwMDAxODI1LW02MmJoMmExaTU5ZTdwcGVzZXV0bmZjaGU0ZGRrMmtlLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiNTYzNzcwMDAxODI1LW02MmJoMmExaTU5ZTdwcGVzZXV0bmZjaGU0ZGRrMmtlLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTA0OTYyMTA5MTY2ODU3NTAwODUwIiwiaGQiOiJnYXJkaXZpZHlhcGl0aC5hYy5pbiIsImVtYWlsIjoiMTVjc2UwNzlAZ2FyZGl2aWR5YXBpdGguYWMuaW4iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6IlVnd19MTmRCdWlITDJYNF80SXlkZWciLCJuYW1lIjoiUmFodWwgUGFybWFyIiwicGljdHVyZSI6Imh0dHBzOi8vbGg1Lmdvb2dsZXVzZXJjb250ZW50LmNvbS8tUUJpSGZtSkJtR0UvQUFBQUFBQUFBQUkvQUFBQUFBQUFBQUEvQU1adXVjbU5LekxGRENLNC1ldFlTZjZDWGtxQnlGUWpZdy9zOTYtYy9waG90by5qcGciLCJnaXZlbl9uYW1lIjoiUmFodWwiLCJmYW1pbHlfbmFtZSI6IlBhcm1hciIsImxvY2FsZSI6ImVuIiwiaWF0IjoxNTk2OTkzMjY5LCJleHAiOjE1OTY5OTY4NjksImp0aSI6ImQ2MTA3NDEyYTYyOGIzNWI2YzI2NTQ5MTRjZGE0OTc1ZDVhZmEzOTEifQ.ED-PEF_9mrXqvK1VYEwCy1Jv_EYTPlVkdaixwBgSTNys97Ctt2VXAfds8BSpBTwv_qJQlrd_cbvtVOz68tRdasBQ3Q8MzLrDjIqzvc4ksegyBlo6rTtONvv2KplXMKk7M6J_xgmqvU-BTw9or8i1i8I1UwzkdfCT8Gx_HZ3-PJ8T_07ZMMv7trPLwUE8Rx7gm3jWjiwZbDQbcW68skOX82mfyospWnpfKlU2Z23HJCBoil9qGE0-SJ7Q-4Nta7UpNjNvUZa_goH8AD-3WKmFRHc0rbQf8ZgbOrh8pfiO-JPwRJNmyC2ZZcanDmylV6x9Ff-TE9HtZGrze_E1nUtAOQ",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://oauth2.googleapis.com/tokeninfo?id_token=eyJhbGciOiJSUzI1NiIsImtpZCI6Ijc0NGY2MGU5ZmI1MTVhMmEwMWMxMWViZWIyMjg3MTI4NjA1NDA3MTEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiNTYzNzcwMDAxODI1LW02MmJoMmExaTU5ZTdwcGVzZXV0bmZjaGU0ZGRrMmtlLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiNTYzNzcwMDAxODI1LW02MmJoMmExaTU5ZTdwcGVzZXV0bmZjaGU0ZGRrMmtlLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTA0OTYyMTA5MTY2ODU3NTAwODUwIiwiaGQiOiJnYXJkaXZpZHlhcGl0aC5hYy5pbiIsImVtYWlsIjoiMTVjc2UwNzlAZ2FyZGl2aWR5YXBpdGguYWMuaW4iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6IlVnd19MTmRCdWlITDJYNF80SXlkZWciLCJuYW1lIjoiUmFodWwgUGFybWFyIiwicGljdHVyZSI6Imh0dHBzOi8vbGg1Lmdvb2dsZXVzZXJjb250ZW50LmNvbS8tUUJpSGZtSkJtR0UvQUFBQUFBQUFBQUkvQUFBQUFBQUFBQUEvQU1adXVjbU5LekxGRENLNC1ldFlTZjZDWGtxQnlGUWpZdy9zOTYtYy9waG90by5qcGciLCJnaXZlbl9uYW1lIjoiUmFodWwiLCJmYW1pbHlfbmFtZSI6IlBhcm1hciIsImxvY2FsZSI6ImVuIiwiaWF0IjoxNTk2OTkzMjY5LCJleHAiOjE1OTY5OTY4NjksImp0aSI6ImQ2MTA3NDEyYTYyOGIzNWI2YzI2NTQ5MTRjZGE0OTc1ZDVhZmEzOTEifQ.ED-PEF_9mrXqvK1VYEwCy1Jv_EYTPlVkdaixwBgSTNys97Ctt2VXAfds8BSpBTwv_qJQlrd_cbvtVOz68tRdasBQ3Q8MzLrDjIqzvc4ksegyBlo6rTtONvv2KplXMKk7M6J_xgmqvU-BTw9or8i1i8I1UwzkdfCT8Gx_HZ3-PJ8T_07ZMMv7trPLwUE8Rx7gm3jWjiwZbDQbcW68skOX82mfyospWnpfKlU2Z23HJCBoil9qGE0-SJ7Q-4Nta7UpNjNvUZa_goH8AD-3WKmFRHc0rbQf8ZgbOrh8pfiO-JPwRJNmyC2ZZcanDmylV6x9Ff-TE9HtZGrze_E1nUtAOQ",
+							"protocol": "https",
+							"host": [
+								"oauth2",
+								"googleapis",
+								"com"
+							],
+							"path": [
+								"tokeninfo"
+							],
+							"query": [
+								{
+									"key": "id_token",
+									"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijc0NGY2MGU5ZmI1MTVhMmEwMWMxMWViZWIyMjg3MTI4NjA1NDA3MTEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiNTYzNzcwMDAxODI1LW02MmJoMmExaTU5ZTdwcGVzZXV0bmZjaGU0ZGRrMmtlLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiNTYzNzcwMDAxODI1LW02MmJoMmExaTU5ZTdwcGVzZXV0bmZjaGU0ZGRrMmtlLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTA0OTYyMTA5MTY2ODU3NTAwODUwIiwiaGQiOiJnYXJkaXZpZHlhcGl0aC5hYy5pbiIsImVtYWlsIjoiMTVjc2UwNzlAZ2FyZGl2aWR5YXBpdGguYWMuaW4iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6IlVnd19MTmRCdWlITDJYNF80SXlkZWciLCJuYW1lIjoiUmFodWwgUGFybWFyIiwicGljdHVyZSI6Imh0dHBzOi8vbGg1Lmdvb2dsZXVzZXJjb250ZW50LmNvbS8tUUJpSGZtSkJtR0UvQUFBQUFBQUFBQUkvQUFBQUFBQUFBQUEvQU1adXVjbU5LekxGRENLNC1ldFlTZjZDWGtxQnlGUWpZdy9zOTYtYy9waG90by5qcGciLCJnaXZlbl9uYW1lIjoiUmFodWwiLCJmYW1pbHlfbmFtZSI6IlBhcm1hciIsImxvY2FsZSI6ImVuIiwiaWF0IjoxNTk2OTkzMjY5LCJleHAiOjE1OTY5OTY4NjksImp0aSI6ImQ2MTA3NDEyYTYyOGIzNWI2YzI2NTQ5MTRjZGE0OTc1ZDVhZmEzOTEifQ.ED-PEF_9mrXqvK1VYEwCy1Jv_EYTPlVkdaixwBgSTNys97Ctt2VXAfds8BSpBTwv_qJQlrd_cbvtVOz68tRdasBQ3Q8MzLrDjIqzvc4ksegyBlo6rTtONvv2KplXMKk7M6J_xgmqvU-BTw9or8i1i8I1UwzkdfCT8Gx_HZ3-PJ8T_07ZMMv7trPLwUE8Rx7gm3jWjiwZbDQbcW68skOX82mfyospWnpfKlU2Z23HJCBoil9qGE0-SJ7Q-4Nta7UpNjNvUZa_goH8AD-3WKmFRHc0rbQf8ZgbOrh8pfiO-JPwRJNmyC2ZZcanDmylV6x9Ff-TE9HtZGrze_E1nUtAOQ"
+								}
 							]
 						}
 					},
