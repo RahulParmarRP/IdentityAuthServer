@@ -8,5 +8,7 @@ namespace IdentityAuthServer.ViewModel
     public class ExternalLoginModel
     {
         public string IdToken { get; set; }
+
+        public string UserRole { get; set; }
     }
 }

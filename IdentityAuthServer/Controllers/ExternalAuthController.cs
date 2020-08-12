@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Google.Apis.Auth;
 using IdentityAuthServer.Models;
 using IdentityAuthServer.ViewModel;
 using IdentityModel.Client;
+using IdentityServer4;
 using IdentityServer4.Validation;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,18 +22,18 @@ namespace IdentityAuthServer.Controllers
     [ApiController]
     public class ExternalAuthController : ControllerBase
     {
-
-        // asp identity
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
-
+        private readonly IdentityServerTools _identityServerTools;
         public ExternalAuthController(
         UserManager<AppUser> userManager,
-        SignInManager<AppUser> signInManager
+        SignInManager<AppUser> signInManager,
+        IdentityServerTools identityServerTools
         )
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _identityServerTools = identityServerTools;
         }
         /*
          * Verify the integrity of the ID token
@@ -45,134 +49,39 @@ namespace IdentityAuthServer.Controllers
         [Route("google")]
         public async Task<IActionResult> AuthenticateGoogleSignin(ExternalLoginModel externalLoginModel)
         {
-
-            /*
-             * After you have verified the token, check if the user is already in your user database. If so, establish an authenticated session for the user. If the user isn't yet in your user database, create a new user record from the information in the ID token payload, and establish a session for the user. You can prompt the user for any additional profile information you require when you detect a newly created user in your app
-             */
-
-            /*
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-
-...
-
-GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
-    // Specify the CLIENT_ID of the app that accesses the backend:
-    .setAudience(Collections.singletonList(CLIENT_ID))
-    // Or, if multiple clients access the backend:
-    //.setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
-    .build();
-
-// (Receive idTokenString by HTTPS POST)
-
-GoogleIdToken idToken = verifier.verify(idTokenString);
-if (idToken != null) {
-  Payload payload = idToken.getPayload();
-
-  // Print user identifier
-  String userId = payload.getSubject();
-  System.out.println("User ID: " + userId);
-
-  // Get profile information from payload
-  String email = payload.getEmail();
-  boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
-  String name = (String) payload.get("name");
-  String pictureUrl = (String) payload.get("picture");
-  String locale = (String) payload.get("locale");
-  String familyName = (String) payload.get("family_name");
-  String givenName = (String) payload.get("given_name");
-
-  // Use or store profile information
-  // ...
-
-} else {
-  System.out.println("Invalid ID token.");
-}
-             */
-
             Payload payload;
             var provider = "google";
             try
             {
-                var validationSettings = new ValidationSettings
+                var validationSettings = new ValidationSettings();
+                //{ Audience = new[] { "YOUR_CLIENT_ID" } };
+                payload = await GoogleJsonWebSignature.ValidateAsync(
+                    externalLoginModel.IdToken, validationSettings);
+                var user = await GetOrCreateExternalLoginUser("google", payload.Subject, payload.Email);
+                // create custom claims for the user found from Google idToken
+                var userRoleClaim = new Claim("userRole", externalLoginModel.UserRole);
+                var result = await _userManager.AddClaimAsync(user, userRoleClaim);
+
+                // get the new IdentityServer4 issued access token for the user
+                var userSubscriptionToken = await _identityServerTools
+                    .IssueClientJwtAsync(
+                    clientId: "userSubscriptionClient",
+                    lifetime: 15,
+                    scopes: new[] { "userSubscription.read" },
+                    audiences: new[] { "https://user.subscription.service/" },
+                    additionalClaims: new List<Claim>()
+                    {
+                        userRoleClaim
+                    });
+
+                var iwttoken = await _identityServerTools
+                   .IssueJwtAsync(lifetime: 15,
+                   claims: new List<Claim>() { userRoleClaim });
+
+                return Ok(new
                 {
-                    //Audience = new[] { "YOUR_CLIENT_ID" }
-                };
-
-                payload = await ValidateAsync(externalLoginModel.IdToken, validationSettings);
-                // It is important to add your ClientId as an audience in order to make sure
-                // that the token is for your application!
-                var user = await GetOrCreateExternalLoginUser(
-                    "google",
-                    payload.Subject,
-                    payload.Email);
-
-                // way 1
-                //var token = await GenerateToken(user);
-
-
-                // way 2
-                /// add extra claims for the external login user
-                // If they exist, add claims to the user for:
-                //    Given (first) name
-                //    Locale
-                //    Picture
-                // Get the information about the user from the external login provider
-                //var info = await _signInManager.GetExternalLoginInfoAsync();
-                //if (info.Principal.HasClaim(c => c.Type == "urn:google:picture"))
-                //{
-                //    await _userManager.AddClaimAsync(user,
-                //        info.Principal.FindFirst("urn:google:picture"));
-                //}
-                // Include the access token in the properties
-                //var props = new AuthenticationProperties();
-                //props.StoreTokens(info.AuthenticationTokens);
-                //props.IsPersistent = true;
-                //await _signInManager.SignInAsync(user, props);
-
-
-
-
-                // way 3 
-                //var client = new HttpClient();
-                //var tokenreq = new TokenRequest()
-                //{
-                //    Address = "https://demo.identityserver.io/connect/token",
-                //    GrantType = "custom",
-                //    ClientId = "client",
-                //    ClientSecret = "secret",
-                //    Parameters = {
-                //        { "custom_parameter", "custom value"},
-                //        { "scope", "api1" }
-                //    }
-                //};
-                //var response = await client.RequestTokenAsync(tokenreq);
-
-
-
-                // way 4
-                //var user = await _userManager.FindByLoginAsync(provider, externalId);
-                //if (null != user)
-                //{
-                //    user = await _userManager.FindByIdAsync(user.Id);
-                //    var userClaims = await _userManager.GetClaimsAsync(user);
-                //    context.Result = new GrantValidationResult(user.Id, provider, userClaims, provider, null);
-                //    return;
-                //}
-
-                //if (user != null)
-                //{
-                //    user = await _userManager.FindByIdAsync(user.Id);
-                //    var userClaims = await _userManager.GetClaimsAsync(user);
-                //    context.Result = new GrantValidationResult(
-                //        user.Id,
-                //        provider,
-                //        userClaims,
-                //        provider,
-                //        null);
-                //}
-                return new JsonResult(Ok("token"));
+                    access_token = "want_to_give_identity_server4_provided_token"
+                });
             }
             catch
             {
@@ -220,10 +129,6 @@ if (idToken != null) {
         //    var claims = await GetUserClaims(user);
         //    return GenerateToken(user, claims);
         //}
-
-
-
-
 
         /*
          * public static async Task<JObject> GenerateLocalAccessTokenResponse(string userName, string role, string userId, string clientId, string provider)
