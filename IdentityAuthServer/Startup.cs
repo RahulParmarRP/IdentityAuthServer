@@ -66,6 +66,7 @@ namespace IdentityAuthServer
                 // Creates temporary key material at startup time.This is for dev scenarios. 
                 // The generated key will be persisted in the local directory by default.
                 .AddDeveloperSigningCredential()
+                //.AddSigningCredential(cert)
                 /*
                  * IdentityServer with an additional AddApiAuthorization helper method that sets up some default ASP.NET Core conventions on top of IdentityServer:
                  */
@@ -78,6 +79,7 @@ namespace IdentityAuthServer
                 // needed for asp net identity to run with
                 // identity server integration
                 .AddAspNetIdentity<AppUser>()
+                 //.AddProfileService<IdentityWithAdditionalClaimsProfileService>()
                 .AddProfileService<CustomProfileService>()
             ;
         }
