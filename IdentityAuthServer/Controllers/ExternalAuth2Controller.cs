@@ -82,9 +82,8 @@ namespace IdentityAuthServer.Controllers
                     throw new Exception(createResult.Errors
                         .Select(e => e.Description)
                         .Aggregate((errors, error) => $"{errors}, {error}"));
-
-
                 }
+
                 await _userManager.AddLoginAsync(newUser, info);
                 var newUserClaims = info.Principal.Claims.Append(new Claim("userId", newUser.Id));
                 await _userManager.AddClaimsAsync(newUser, newUserClaims);
