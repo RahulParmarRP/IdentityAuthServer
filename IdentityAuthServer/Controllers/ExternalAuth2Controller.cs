@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityAuthServer.Models;
 using Microsoft.AspNetCore.Authentication;
@@ -56,11 +57,49 @@ namespace IdentityAuthServer.Controllers
                 //CredentialsDTO credentials = _authService.ExternalSignIn(info);
                 //return new RedirectResult($"{returnUrl}?token={credentials.JWTToken}");
                 //return RedirectToLocal(returnUrl);
+
+                /*
+                await _signInManager.UpdateExternalAuthenticationTokensAsync(info);
+                _logger.LogInformation(5, "User logged in with {Name} provider.", info.LoginProvider);
+                return RedirectToLocal(returnUrl);
+                */
             }
-            else if (!result.Succeeded)
+            else if (!result.Succeeded) //user does not exist yet
             {
                 // If the user does not have an account, then ask the user to create an account.
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                var newUser = new AppUser
+                {
+                    UserName = email,
+                    Email = email,
+                    EmailConfirmed = true
+                };
+
+                var createResult = await _userManager.CreateAsync(newUser);
+
+                if (!createResult.Succeeded)
+                {
+                    throw new Exception(createResult.Errors
+                        .Select(e => e.Description)
+                        .Aggregate((errors, error) => $"{errors}, {error}"));
+
+
+                }
+                await _userManager.AddLoginAsync(newUser, info);
+                var newUserClaims = info.Principal.Claims.Append(new Claim("userId", newUser.Id));
+                await _userManager.AddClaimsAsync(newUser, newUserClaims);
+                await _signInManager.SignInAsync(newUser, isPersistent: false);
+                await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+
+                return Redirect("http://localhost:4200");
             }
+        }
+
+
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return Redirect("http://localhost:4200");
         }
     }
 }
