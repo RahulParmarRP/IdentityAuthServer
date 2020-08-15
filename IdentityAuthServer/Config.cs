@@ -24,9 +24,9 @@ namespace IdentityAuthServer
                 {
                     Name = "customRoleClaim",
                     DisplayName="Your profile data",
-                    UserClaims =
+                    UserClaims =  new List<string>
                     {
-                        "userRole",
+                        "userRole"
                         //"TestRole",
                         //"roleType"
                     }
@@ -46,7 +46,16 @@ namespace IdentityAuthServer
 
             return new List<ApiResource>
             {
-                new ApiResource("api1", "API1", efeResourceClaimTypes)
+                new ApiResource("api1", "API1", efeResourceClaimTypes),
+                new ApiResource
+                {
+                    Name = "api2",
+                    DisplayName = "API #2",
+                    Description = "Allow the application to access API #2 on your behalf",
+                    Scopes = new List<string> {"api2.read", "api2.write"},
+                    ApiSecrets = new List<Secret> {new Secret("ScopeSecret".Sha256())},
+                    UserClaims = new List<string> {"role"}
+                }
             };
         }
 
@@ -54,11 +63,27 @@ namespace IdentityAuthServer
             new List<ApiScope>
             {
                 new ApiScope("api1", "My API"),
+                new ApiScope("api2.read", "Read Access to API #2"),
+                new ApiScope("api2.write", "Write Access to API #2"),
                 new ApiScope(name: "read",   displayName: "Read your data."),
                 new ApiScope(name: "write",  displayName: "Write your data."),
                 new ApiScope(name: "delete", displayName: "Delete your data.")
             };
 
+        /*
+         * https://www.scottbrady91.com/Identity-Server/Getting-Started-with-IdentityServer-4
+         Resource Owner Password Credentials (ROPC) Grant Type
+            At some point, you’ll be asked why the login page cannot be hosted within 
+            the client application, or maybe you’ll have someone on a UX team scream at you 
+            for asking them to use a web browser to authenticate the user. 
+            Sure, this could be achieved using the ROPC/password grant type; however, 
+            this is a security anti-pattern, and this grant type is only included 
+            in the OAuth 2.0 specification to help legacy applications. 
+            That’s applications considered legacy in 2012.
+            For a full write-up of everything wrong with the Resource Owner grant type, 
+            check out my article Why the Resource Owner Password Credentials Grant Type 
+            is not Authentication nor Suitable for Modern Applications.
+        */
         public static IEnumerable<Client> Clients =>
             new List<Client>
             {
@@ -84,8 +109,8 @@ namespace IdentityAuthServer
                  * distinguish between calls on behalf of clients 
                  * and calls on behalf of users.
                  */
-                // for role claims
-                new Client
+        // for role claims
+        new Client
                 {
                     AllowOfflineAccess = true,
                     AlwaysSendClientClaims = true,
@@ -151,6 +176,26 @@ namespace IdentityAuthServer
                         //IdentityServerConstants.StandardScopes.OpenId,
                         //IdentityServerConstants.StandardScopes.Profile
                     }
+                },
+                new Client
+                {
+                    ClientId = "spa_example",
+                    ClientName = "SPA Client",
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequirePkce = true,
+                    RequireClientSecret = false,
+                    AllowedScopes = new List<string> {"openid", "profile", "api1"},
+                    RedirectUris = new List<string> {
+                        "http://localhost:4200/auth-callback",
+                        "http://localhost:4200/silent-refresh.html"
+                    },
+                    PostLogoutRedirectUris = new List<string> {
+                        "http://localhost:4200/"
+                    },
+                    AllowedCorsOrigins = new List<string> {
+                        "http://localhost:4200"
+                    },
+                    AllowAccessTokensViaBrowser = true
                 }
             };
 
