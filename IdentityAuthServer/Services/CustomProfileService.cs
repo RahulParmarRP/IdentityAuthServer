@@ -90,6 +90,9 @@ namespace IdentityAuthServer.Services
 
         public Task IsActiveAsync(IsActiveContext context)
         {
+            //var sub = context.Subject.GetSubjectId();
+            //var user = await _userManager.FindByIdAsync(sub);
+            //context.IsActive = user != null;
             context.IsActive = true;
             return Task.FromResult(0);
         }
