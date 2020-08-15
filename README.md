@@ -76,7 +76,25 @@ https://stackoverflow.com/questions/48727900/google-jwt-authentication-with-aspn
 https://www.blinkingcaret.com/2017/05/03/external-login-providers-in-asp-net-core/
 
 SPA to Google to SPA to Backend to SPA
+https://www.scottbrady91.com/Identity-Server/Getting-Started-with-IdentityServer-4
+https://github.com/scottbrady91/IdentityServer4-Example
+https://www.scottbrady91.com/Angular/Migrating-oidc-client-js-to-use-the-OpenID-Connect-Authorization-Code-Flow-and-PKCE
+https://github.com/scottbrady91/Angular4-OidcClientJs-Example
+https://www.scottbrady91.com/OAuth/Cheat-Sheet-OAuth-for-Browser-Based-Applications
 https://developers.google.com/identity/sign-in/web/backend-auth
+https://github.com/nahidf/IdentityServer4-adventures
+https://nahidfa.com/posts/identityserver4-and-asp-.net-web-api/
+https://www.scottbrady91.com/Angular/Migrating-oidc-client-js-to-use-the-OpenID-Connect-Authorization-Code-Flow-and-PKCE
+https://auth0.com/blog/oauth2-implicit-grant-and-spa/
+https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-implicit-grant-flow
+https://github.com/damienbod/angular-auth-oidc-client
+https://leastprivilege.com/2016/12/16/identity-vs-permissions/
+http://benjamincollins.com/blog/practical-permission-based-authorization-in-asp-net-core/
+https://www.amazon.com/OAuth-2-Action-Justin-Richer/dp/161729327X/ref=sr_1_1?ie=UTF8&qid=1496135709&sr=8-1&keywords=oauth2+in+action
+https://stackoverflow.com/questions/43351871/identity-server-4-social-login-for-spa?rq=1
+I didn’t say “don’t use claims for authorization” – if your authorization is based on identity data, that’s totally fine.
+I am saying that claims should be used to model identity – not permissions.
+https://stackoverflow.com/questions/29048122/token-based-authentication-in-asp-net-core?rq=1
 
 https://stackoverflow.com/questions/54694466/google-login-in-angular-7-with-net-core-api
 
