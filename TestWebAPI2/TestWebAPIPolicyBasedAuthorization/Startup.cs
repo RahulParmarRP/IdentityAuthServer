@@ -50,6 +50,13 @@ namespace TestWebAPIPolicyBasedAuthorization
 
                    config.RequireHttpsMetadata = false;
                });
+
+            services.AddAuthentication("Bearer")
+                .AddIdentityServerAuthentication("Bearer", options =>
+                {
+                    options.ApiName = "api1";
+                    options.Authority = "https://localhost:5000";
+                });
             */
 
             // adds an authorization policy to make sure the token is for scope 'api1'
