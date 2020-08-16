@@ -7,6 +7,7 @@ using IdentityAuthServer.Models;
 using IdentityAuthServer.Services;
 using IdentityServer4.AspNetIdentity;
 using IdentityServer4.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -58,7 +59,13 @@ namespace IdentityAuthServer
                 //.AddClaimsPrincipalFactory<CustomUserClaimsPrincipalFactory>()
                 ;
 
-            services.AddAuthentication()
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddGoogle("Google", options =>
+                {
+                    //options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+                    options.ClientId = "563770001825-54sjoif5q2i2rqhnt69d7hhjc2khplec.apps.googleusercontent.com";
+                    options.ClientSecret = "Hzim45MejNx8iOilM-RjZ2m_";
+                });
             ;
 
             // auto added by ASP NET Web API
