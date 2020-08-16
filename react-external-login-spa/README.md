@@ -9,6 +9,13 @@ https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount
 &state=CfDJ8MwhuoRtKTVCr3hPlhJz7z4lnnF1X3lgLFElC0AqFh9Q9t4i0BY2eYi3rvhCF9N0z1hl0ROjB3x7na-FxNaaEXinrg3jBGvr9UDF0xy_6zNEgTaB87S7mAFDPbc6o0M2cCZur68rYUAAZfzAE9cuQTjGjBJPtYTW8oa_7UPq49HNY5frf9RA-bHecq1gg1RvPgkMKQc1CCzf2NUr-m-5T_c2Uwx-7KCtnYCr8KLk_lmkop2jPct633nAPOQtWs6mOw
 &flowName=GeneralOAuthFlow
 
+https://accounts.google.com/o/oauth2/v2/auth/identifier
+?response_type=code
+&client_id=563770001825-54sjoif5q2i2rqhnt69d7hhjc2khplec.apps.googleusercontent.com
+&redirect_uri=https://localhost:5001/signin-google
+&scope=openid profile email
+&state=CfDJ8MwhuoRtKTVCr3hPlhJz7z4PfTVnyC4WbKZvhqO9X-4wD8ocpU_zHtH80Wwk2yvQ9f0URnUNeMIJ_PgACR6zUyLXrb6YYuYXuM0fvLm9-HL1sG1S_ePwhBwOquZEMV-mmWtz9XWPt3nm_5ulJ9LXGfB1mwU1MhzHRa3a8U8MrnXE_ZjZ4jhUQpE6lTaoWY1EvF15AMpaeLuWMat3UNS4y7YTFC6fE7mXSTD32eI9Cir4dS0oKghkzvZbY9Bg18ORwvHRq1D-lTRUrGhPfXLuJB_wcuWZtrVTHAPnZxrbpD2B2QJYxkAa1yVIW4Tl7z5YwWtdZWGEQVHeL5xz1uNeK3M&flowName=GeneralOAuthFlow
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
