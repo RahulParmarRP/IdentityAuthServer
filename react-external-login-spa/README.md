@@ -1,6 +1,14 @@
 Resource Owner Password Credentials (ROPC) Grant Type
 At some point, you’ll be asked why the login page cannot be hosted within the client application, or maybe you’ll have someone on a UX team scream at you for asking them to use a web browser to authenticate the user. Sure, this could be achieved using the ROPC/password grant type; however, this is a security anti-pattern, and this grant type is only included in the OAuth 2.0 specification to help legacy applications. That’s applications considered legacy in 2012.
 
+https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount
+?response_type=code
+&client_id=563770001825-54sjoif5q2i2rqhnt69d7hhjc2khplec.apps.googleusercontent.com
+&redirect_uri=https://localhost:5001/signin-google
+&scope=openid profile email
+&state=CfDJ8MwhuoRtKTVCr3hPlhJz7z4lnnF1X3lgLFElC0AqFh9Q9t4i0BY2eYi3rvhCF9N0z1hl0ROjB3x7na-FxNaaEXinrg3jBGvr9UDF0xy_6zNEgTaB87S7mAFDPbc6o0M2cCZur68rYUAAZfzAE9cuQTjGjBJPtYTW8oa_7UPq49HNY5frf9RA-bHecq1gg1RvPgkMKQc1CCzf2NUr-m-5T_c2Uwx-7KCtnYCr8KLk_lmkop2jPct633nAPOQtWs6mOw
+&flowName=GeneralOAuthFlow
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
