@@ -109,8 +109,8 @@ namespace IdentityAuthServer
                  * distinguish between calls on behalf of clients 
                  * and calls on behalf of users.
                  */
-        // for role claims
-        new Client
+                // for role claims
+                new Client
                 {
                     AllowOfflineAccess = true,
                     AlwaysSendClientClaims = true,
