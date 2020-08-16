@@ -31,7 +31,6 @@ var mgr = new UserManager(config);
 function Login() {
 
     const handleGoogleLogin = () => {
-
         document.location.href = 'https://localhost:5001/api/externalauth2/ExternalLogin';
 
         // axios.get('https://localhost:5001/api/externalauth2/ExternalLogin',
