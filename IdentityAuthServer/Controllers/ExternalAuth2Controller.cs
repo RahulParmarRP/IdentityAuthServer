@@ -28,21 +28,31 @@ namespace IdentityAuthServer.Controllers
             _signInManager = signInManager;
         }
 
-        [HttpPost]
-        [Route("signinexternal")]
+        [HttpGet]
+        //[AllowAnonymous]
+        [Route("ExternalLogin")]
         public IActionResult ExternalLogin(string provider, string returnUrl = null)
         {
-            var redirectUrl = Url.Action(
+            var callbackUrl = Url.Action(
                 action: nameof(ExternalLoginCallback),
                 controller: "ExternalAuth2",
                 values: new { ReturnUrl = returnUrl });
 
+            //var props = new AuthenticationProperties
+            //{
+            //    RedirectUri = callbackUrl,
+            //    Items =
+            //    {
+            //        { "scheme", provider },
+            //        { "returnUrl", returnUrl }
+            //    }
+            //};
             AuthenticationProperties properties = _signInManager
-                .ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+                .ConfigureExternalAuthenticationProperties(provider, callbackUrl);
             return Challenge(properties, provider);
         }
 
-        [HttpGet("signinexternalcallback")]
+        [HttpGet("ExternalLoginCallback")]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
         {
             var info = await _signInManager.GetExternalLoginInfoAsync();
@@ -92,6 +102,7 @@ namespace IdentityAuthServer.Controllers
 
                 return Redirect("http://localhost:4200");
             }
+            return Redirect("http://localhost:4200");
         }
 
 
