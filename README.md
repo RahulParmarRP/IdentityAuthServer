@@ -32,6 +32,10 @@ https://github.com/ghstahl/IdentityServer4-Extension-Grants
 http://docs.identityserver.io/en/release/topics/extension_grants.html?highlight=GrantValidationResult
 https://www.strathweb.com/2017/10/self-issuing-an-identityserver4-token-in-an-identityserver4-service/
 
+GITHUB
+https://github.com/jasontaylordev/SecureSpa
+https://github.com/RobertDyball/A2SPA/tree/master/VS2017_2/A2SPA/wwwroot
+
 external login
 https://www.blinkingcaret.com/2018/10/10/sign-in-with-an-external-login-provider-in-an-angular-application-served-by-asp-net-core/
 https://kevinchalet.com/2016/07/13/creating-your-own-openid-connect-server-with-asos-choosing-the-right-flows/
