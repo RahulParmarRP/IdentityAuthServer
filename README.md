@@ -29,6 +29,11 @@ http://docs.identityserver.io/en/release/topics/extension_grants.html?highlight=
 https://www.strathweb.com/2017/10/self-issuing-an-identityserver4-token-in-an-identityserver4-service/
 
 external login
+https://www.blinkingcaret.com/2018/10/10/sign-in-with-an-external-login-provider-in-an-angular-application-served-by-asp-net-core/
+https://kevinchalet.com/2016/07/13/creating-your-own-openid-connect-server-with-asos-choosing-the-right-flows/
+https://leastprivilege.com/2013/11/26/dissecting-the-web-api-individual-accounts-templatepart-3-external-accounts/
+https://bitoftech.net/2014/08/11/asp-net-web-api-2-external-logins-social-logins-facebook-google-angularjs-app/
+https://accounts.google.com/.well-known/openid-configuration
 https://github.com/damienbod/AspNetCoreID4External/blob/master/src/IdentityServerWithAspNetIdentity/Controllers/AccountController.cs
 https://stackoverflow.com/questions/41040702/asp-net-identity-with-identityserver4-get-external-resource-oauth-access-token
 https://stackoverflow.com/questions/59552223/flow-external-login-tokens-from-the-identity-server-to-the-client-app
