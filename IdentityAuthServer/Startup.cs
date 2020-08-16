@@ -33,6 +33,11 @@ namespace IdentityAuthServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options => options.AddPolicy("AllowAll", p =>
+            p.AllowAnyOrigin()
+             .AllowAnyMethod()
+             .AllowAnyHeader()));
+
             var connectionString = Configuration.GetConnectionString("MSSqlServerConnection");
 
             services.AddDbContext<AppDatabaseContext>(
@@ -79,7 +84,7 @@ namespace IdentityAuthServer
                 // needed for asp net identity to run with
                 // identity server integration
                 .AddAspNetIdentity<AppUser>()
-                 //.AddProfileService<IdentityWithAdditionalClaimsProfileService>()
+                //.AddProfileService<IdentityWithAdditionalClaimsProfileService>()
                 .AddProfileService<CustomProfileService>()
             ;
         }
@@ -97,6 +102,7 @@ namespace IdentityAuthServer
             // needed for MVC based routing in Web API
             app.UseRouting();
 
+            app.UseCors("AllowAll");
             // UseIdentityServer includes a call to UseAuthentication, 
             // so it’s not necessary to have both.
             // needed to add identity server and find its 

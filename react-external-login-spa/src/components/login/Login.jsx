@@ -32,7 +32,14 @@ function Login() {
 
     const handleGoogleLogin = () => {
 
-        axios.get('https://localhost:5001/api/externalauth2?provider=google&returnUrl=https://localhost:3000')
+        axios.get('https://localhost:5001/api/externalauth2/ExternalLogin',
+            {
+                // headers: { "Access-Control-Allow-Origin": "*" },
+                params: {
+                    provider: "google",
+                    returnUrl: "http://localhost:3000/"
+                }
+            })
             .then((response) => {
                 debugger
             })
@@ -46,7 +53,7 @@ function Login() {
          http://ngauthenticationapi.azurewebsites.net/api/Account/ExternalLogin?
          provider=Google&response_type=token&client_id=ngAuthApp&
          redirect_uri=http://ngauthenticationweb.azurewebsites.net/authcomplete.html
-
+    
          /api/Account/ExternalLogin?
          provider=Google&
          response_type=token&

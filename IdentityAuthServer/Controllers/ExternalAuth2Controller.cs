@@ -100,16 +100,16 @@ namespace IdentityAuthServer.Controllers
                 await _signInManager.SignInAsync(newUser, isPersistent: false);
                 await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-                return Redirect("http://localhost:4200");
+                return Redirect("http://localhost:3000");
             }
-            return Redirect("http://localhost:4200");
+            return Redirect("http://localhost:3000");
         }
 
 
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return Redirect("http://localhost:4200");
+            return Redirect("http://localhost:3000");
         }
     }
 }

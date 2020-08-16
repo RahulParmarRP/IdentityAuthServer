@@ -186,14 +186,14 @@ namespace IdentityAuthServer
                     RequireClientSecret = false,
                     AllowedScopes = new List<string> {"openid", "profile", "api1"},
                     RedirectUris = new List<string> {
-                        "http://localhost:4200/auth-callback",
-                        "http://localhost:4200/silent-refresh.html"
+                        "http://localhost:3000/auth-callback",
+                        "http://localhost:3000/silent-refresh.html"
                     },
                     PostLogoutRedirectUris = new List<string> {
-                        "http://localhost:4200/"
+                        "http://localhost:3000/"
                     },
                     AllowedCorsOrigins = new List<string> {
-                        "http://localhost:4200"
+                        "http://localhost:3000"
                     },
                     AllowAccessTokensViaBrowser = true
                 }
