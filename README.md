@@ -37,6 +37,24 @@ https://github.com/jasontaylordev/SecureSpa
 https://github.com/RobertDyball/A2SPA/tree/master/VS2017_2/A2SPA/wwwroot
 
 external login
+https://aspnetcorespa.azurewebsites.net/
+https://github.com/asadsahi/AspNetCoreSpa
+spa + social login + identity server 4 web api
+https://github.com/ruidfigueiredo/angular-aspnetcore-external-login
+https://www.codementor.io/@onigbindeifeoluwa/third-party-authentication-with-angular-and-asp-net-core-web-api-10qtiu3d4i
+https://stackoverflow.com/questions/55804779/how-to-integrate-social-login-with-existing-net-core-web-api-backend-and-angula
+https://github.com/gary-archer/authguidance.websample1/tree/master/spa
+https://stackoverflow.com/questions/52074290/angular-6-asp-net-not-core-web-api-cors-request-fails?rq=1
+https://github.com/abacritt/angularx-social-login/blob/master/projects/lib/src/socialauth.service.ts
+https://stackoverflow.com/questions/54694466/google-login-in-angular-7-with-net-core-api
+https://github.com/AnkitSharma-007/ASPCore.GoogleAuth/blob/master/GoogleAuth/Startup.cs
+https://espressocoder.com/2019/10/28/secure-your-spa-with-authorization-code-flow-with-pkce/
+https://offering.solutions/blog/articles/2020/05/18/authentication-and-authorization-with-angular-and-asp.net-core-using-oidc-and-oauth2/
+https://stackoverflow.com/questions/39594332/identityserver4-web-api-spa-together-in-one-project
+https://github.com/Jamaxack/IdentityServerSPA/blob/master/src/IdentityServerAspNetIdentity/Identity/Account/ExternalController.cs
+https://bitoftech.net/2014/08/11/asp-net-web-api-2-external-logins-social-logins-facebook-google-angularjs-app/
+https://code-maze.com/external-identity-provider-aspnet-core-identity/
+https://github.com/AnkitSharma-007/ASPCore.GoogleAuth/blob/master/GoogleAuth/Controllers/AccountController.cs
 https://www.blinkingcaret.com/2018/10/10/sign-in-with-an-external-login-provider-in-an-angular-application-served-by-asp-net-core/
 https://kevinchalet.com/2016/07/13/creating-your-own-openid-connect-server-with-asos-choosing-the-right-flows/
 https://leastprivilege.com/2013/11/26/dissecting-the-web-api-individual-accounts-templatepart-3-external-accounts/
