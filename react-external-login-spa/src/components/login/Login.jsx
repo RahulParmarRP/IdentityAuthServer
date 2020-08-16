@@ -32,20 +32,23 @@ function Login() {
 
     const handleGoogleLogin = () => {
 
-        axios.get('https://localhost:5001/api/externalauth2/ExternalLogin',
-            {
-                // headers: { "Access-Control-Allow-Origin": "*" },
-                params: {
-                    provider: "google",
-                    returnUrl: "http://localhost:3000/"
-                }
-            })
-            .then((response) => {
-                debugger
-            })
-            .catch((res) => {
-                debugger
-            })
+        document.location.href = 'https://localhost:5001/api/externalauth2/ExternalLogin';
+
+        // axios.get('https://localhost:5001/api/externalauth2/ExternalLogin',
+        //     {
+        //         // this should be in responser to resolve CORS
+        //         // headers: { "Access-Control-Allow-Origin": "*" },
+        //         // params: {
+        //         // provider: "google",
+        //         // returnUrl: "http://localhost:3000/index.html"
+        //         // }
+        //     })
+        //     .then((response) => {
+        //         debugger
+        //     })
+        //     .catch((res) => {
+        //         debugger
+        //     })
         /*
         As we stated earlier, this end point will accept the GET 
         requests originated from our AngularJS app, 
