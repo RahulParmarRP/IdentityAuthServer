@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityAuthServer.Models;
+using IdentityServer4;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -58,23 +59,42 @@ namespace IdentityAuthServer.Controllers
             //        { "scheme", provider },
             //    }
             //};
+            var scheme = "Google";
+            var returnUrl = "http://localhost:3000";
             var callbackUrl = Url.Action(nameof(ExternalLoginCallback));
             var authenticationProperties = new AuthenticationProperties
             {
-                RedirectUri = callbackUrl
+                RedirectUri = callbackUrl,
+                //items =
+                //{
+                //    { "returnurl", "http://localhost:3000" },
+                //    { "scheme", scheme },
+                //}
             };
-            //var authenticationProperties = _signInManager
-            //    .ConfigureExternalAuthenticationProperties("Google", callbackUrl);
+
+            // Request a redirect to the external login provider.
+            var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "ExternalAuth2", new { returnUrl });
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(scheme, redirectUrl);
+
             //AuthenticationProperties properties = _signInManager
             //    .ConfigureExternalAuthenticationProperties("Google", callbackUrl);
-            return this.Challenge(authenticationProperties, "Google");
+            return Challenge(properties, scheme);
         }
 
         [HttpGet]
+        //[HttpPost]
         //[AllowAnonymous]
         [Route("ExternalLoginCallback")]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
         {
+
+            // read external identity from the temporary cookie
+            var aresult = await HttpContext.AuthenticateAsync(IdentityServerConstants.ExternalCookieAuthenticationScheme);
+            if (aresult?.Succeeded != true)
+            {
+                throw new Exception("External authentication error");
+            }
+
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null) return new RedirectResult($"{returnUrl}?error=externalsigninerror");
 

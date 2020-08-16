@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using IdentityAuthServer.Data;
 using IdentityAuthServer.Models;
 using IdentityAuthServer.Services;
+using IdentityServer4;
 using IdentityServer4.AspNetIdentity;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -59,10 +60,16 @@ namespace IdentityAuthServer
                 //.AddClaimsPrincipalFactory<CustomUserClaimsPrincipalFactory>()
                 ;
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            services.AddAuthentication()
                 .AddGoogle("Google", options =>
                 {
-                    //options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+                    //https://docs.identityserver.io/en/release/quickstarts/4_external_authentication.html
+                    // register your IdentityServer with Google at https://console.developers.google.com
+                    // enable the Google+ API
+                    // set the redirect URI to https://localhost:5001/signin-google
+                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+                    //options.SignInScheme = IdentityConstants.ExternalScheme;
                     options.ClientId = "563770001825-54sjoif5q2i2rqhnt69d7hhjc2khplec.apps.googleusercontent.com";
                     options.ClientSecret = "Hzim45MejNx8iOilM-RjZ2m_";
                 });
