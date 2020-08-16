@@ -17,6 +17,10 @@ https://stackoverflow.com/questions/57594234/passing-additional-data-with-refere
 https://stackoverflow.com/questions/41040702/asp-net-identity-with-identityserver4-get-external-resource-oauth-access-token/41163741#41163741
 https://identitymodel.readthedocs.io/en/latest/native/samples.html
 
+CORS
+
+https://enable-cors.org/server_aspnet.html
+
 ROPS flow
 https://www.red-gate.com/simple-talk/dotnet/net-tools/working-with-identity-server-4/
 
