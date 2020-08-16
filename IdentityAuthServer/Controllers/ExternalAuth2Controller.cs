@@ -31,12 +31,12 @@ namespace IdentityAuthServer.Controllers
         [HttpGet]
         //[AllowAnonymous]
         [Route("ExternalLogin")]
-        public IActionResult ExternalLogin(string provider, string returnUrl = null)
+        public IActionResult ExternalLogin()
         {
-            var callbackUrl = Url.Action(
-                action: nameof(ExternalLoginCallback),
-                controller: "ExternalAuth2",
-                values: new { ReturnUrl = returnUrl });
+            //var callbackUrl = Url.Action(
+            //    action: nameof(ExternalLoginCallback),
+            //    controller: "ExternalAuth2",
+            //    values: new { ReturnUrl = returnUrl });
 
             //var props = new AuthenticationProperties
             //{
@@ -47,12 +47,32 @@ namespace IdentityAuthServer.Controllers
             //        { "returnUrl", returnUrl }
             //    }
             //};
-            AuthenticationProperties properties = _signInManager
-                .ConfigureExternalAuthenticationProperties(provider, callbackUrl);
-            return Challenge(properties, provider);
+
+            // start challenge and roundtrip the return URL and scheme 
+            //var props = new AuthenticationProperties
+            //{
+            //    RedirectUri = Url.Action(nameof(ExternalLoginCallback)),
+            //    Items =
+            //    {
+            //        { "returnUrl", returnUrl },
+            //        { "scheme", provider },
+            //    }
+            //};
+            var callbackUrl = Url.Action(nameof(ExternalLoginCallback));
+            var authenticationProperties = new AuthenticationProperties
+            {
+                RedirectUri = callbackUrl
+            };
+            //var authenticationProperties = _signInManager
+            //    .ConfigureExternalAuthenticationProperties("Google", callbackUrl);
+            //AuthenticationProperties properties = _signInManager
+            //    .ConfigureExternalAuthenticationProperties("Google", callbackUrl);
+            return this.Challenge(authenticationProperties, "Google");
         }
 
-        [HttpGet("ExternalLoginCallback")]
+        [HttpGet]
+        //[AllowAnonymous]
+        [Route("ExternalLoginCallback")]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
         {
             var info = await _signInManager.GetExternalLoginInfoAsync();
