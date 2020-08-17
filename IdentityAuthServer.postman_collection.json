@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "708fd13c-6eba-42b1-a31e-a5d5f2eaa3f7",
+		"_postman_id": "8e85fe46-cc73-4390-a40f-d4fdd59c7ad7",
 		"name": "IdentityAuthServer",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -512,6 +512,27 @@
 								"api",
 								"externalauth",
 								"google"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:5001/api/externalauth2/ExternalLogin",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:5001/api/externalauth2/ExternalLogin",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"externalauth2",
+								"ExternalLogin"
 							]
 						}
 					},
