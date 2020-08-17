@@ -145,6 +145,58 @@ namespace IdentityAuthServer.Controllers
             return Redirect("http://localhost:3000");
         }
 
+        /// <summary>
+        /// Post processing of external authentication
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> Callback()
+        {
+            // read external identity from the temporary cookie
+            var result = await HttpContext.AuthenticateAsync(IdentityConstants.ExternalScheme);
+            if (result?.Succeeded != true)
+            {
+                throw new Exception("External authentication error");
+            }
+
+            //if (_logger.IsEnabled(LogLevel.Debug))
+            //{
+            //    var externalClaims = result.Principal.Claims.Select(c => $"{c.Type}: {c.Value}");
+            //    _logger.LogDebug("External claims: {@claims}", externalClaims);
+            //}
+
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                return BadRequest("Error loading external login information.");
+            }
+
+            // Sign in the user with this external login provider if the user already has a login.
+            var signInResult = await _signInManager.ExternalLoginSignInAsync(
+                info.LoginProvider,
+                info.ProviderKey,
+                isPersistent: false);
+
+
+            if (signInResult.Succeeded)
+            {
+                //_logger.LogInformation(5, "User logged in with {Name} provider.", info.LoginProvider);
+                //return RedirectToLocal(returnUrl);
+            }
+            else if (!signInResult.Succeeded) //user does not exist yet
+            {
+                // If the user does not have an account, then ask the user to create an account.
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+
+                var newUser = new IdentityUser
+                {
+                    UserName = email,
+                    Email = email,
+                    EmailConfirmed = true
+                };
+
+                var createResult = await _userManager.CreateAsync(newUser);
+            }
+        }
 
         public async Task<IActionResult> Logout()
         {
