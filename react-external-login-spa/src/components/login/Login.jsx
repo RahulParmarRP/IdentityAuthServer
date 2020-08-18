@@ -31,23 +31,27 @@ var mgr = new UserManager(config);
 function Login() {
 
     const handleGoogleLogin = () => {
-        document.location.href = 'https://localhost:5001/api/externalauth2/ExternalLogin';
+        document.location.href = 'https://localhost:5001/api/externalauth2/ExternalLogin?returnUrl=http://localhost:3001';
 
-        // axios.get('https://localhost:5001/api/externalauth2/ExternalLogin',
+        // axios.post('https://localhost:5001/api/externalauth2/ExternalLogin',
         //     {
         //         // this should be in responser to resolve CORS
-        //         // headers: { "Access-Control-Allow-Origin": "*" },
+        //         headers: {
+        //             // "Access-Control-Allow-Origin": "*",
+        //             "Accept": "text/html"
+        //             // "Content-Type": "text/html; charset=UTF-8"
+        //         },
         //         // params: {
-        //         // provider: "google",
+        //         // provider: "google",a
         //         // returnUrl: "http://localhost:3000/index.html"
         //         // }
         //     })
         //     .then((response) => {
-        //         debugger
-        //     })
-        //     .catch((res) => {
-        //         debugger
-        //     })
+        //         debugger;
+        //     });
+        // .catch((res) => {
+        //     debugger;
+        // });
         /*
         As we stated earlier, this end point will accept the GET 
         requests originated from our AngularJS app, 
@@ -63,7 +67,7 @@ function Login() {
          redirect_uri=https://localhost/&
          state=as..aaa
          */
-    }
+    };
 
     return (
         <div>
