@@ -32,7 +32,7 @@ namespace IdentityAuthServer.Controllers
         [HttpGet]
         //[AllowAnonymous]
         [Route("ExternalLogin")]
-        public IActionResult ExternalLogin(string returnUrl)
+        public IActionResult ExternalLogin(string provider, string returnUrl = null)
         {
             //var callbackUrl = Url.Action(
             //    action: nameof(ExternalLoginCallback),
