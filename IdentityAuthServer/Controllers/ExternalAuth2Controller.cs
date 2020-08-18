@@ -32,7 +32,7 @@ namespace IdentityAuthServer.Controllers
         [HttpGet]
         //[AllowAnonymous]
         [Route("ExternalLogin")]
-        public IActionResult ExternalLogin()
+        public IActionResult ExternalLogin(string returnUrl)
         {
             //var callbackUrl = Url.Action(
             //    action: nameof(ExternalLoginCallback),
@@ -60,7 +60,7 @@ namespace IdentityAuthServer.Controllers
             //    }
             //};
             var scheme = "Google";
-            var returnUrl = "http://localhost:3000";
+            var defaultReturnUrl = "http://localhost:3000";
             var callbackUrl = Url.Action(nameof(ExternalLoginCallback));
             var authenticationProperties = new AuthenticationProperties
             {
@@ -81,19 +81,19 @@ namespace IdentityAuthServer.Controllers
             return Challenge(properties, scheme);
         }
 
+        //[HttpGet]
         [HttpGet]
-        //[HttpPost]
         //[AllowAnonymous]
         [Route("ExternalLoginCallback")]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
         {
 
             // read external identity from the temporary cookie
-            var aresult = await HttpContext.AuthenticateAsync(IdentityServerConstants.ExternalCookieAuthenticationScheme);
-            if (aresult?.Succeeded != true)
-            {
-                throw new Exception("External authentication error");
-            }
+            //var aresult = await HttpContext.AuthenticateAsync(IdentityServerConstants.ExternalCookieAuthenticationScheme);
+            //if (aresult?.Succeeded != true)
+            //{
+            //    throw new Exception("External authentication error");
+            //}
 
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null) return new RedirectResult($"{returnUrl}?error=externalsigninerror");
@@ -108,11 +108,10 @@ namespace IdentityAuthServer.Controllers
                 //return new RedirectResult($"{returnUrl}?token={credentials.JWTToken}");
                 //return RedirectToLocal(returnUrl);
 
-                /*
-                await _signInManager.UpdateExternalAuthenticationTokensAsync(info);
-                _logger.LogInformation(5, "User logged in with {Name} provider.", info.LoginProvider);
-                return RedirectToLocal(returnUrl);
-                */
+                var externalResult = await _signInManager
+                    .UpdateExternalAuthenticationTokensAsync(info);
+                //_logger.LogInformation(5, "User logged in with {Name} provider.", info.LoginProvider);
+                //return Redirect(returnUrl);
             }
             else if (!result.Succeeded) //user does not exist yet
             {
@@ -134,15 +133,15 @@ namespace IdentityAuthServer.Controllers
                         .Aggregate((errors, error) => $"{errors}, {error}"));
                 }
 
-                await _userManager.AddLoginAsync(newUser, info);
+                var a = await _userManager.AddLoginAsync(newUser, info);
                 var newUserClaims = info.Principal.Claims.Append(new Claim("userId", newUser.Id));
-                await _userManager.AddClaimsAsync(newUser, newUserClaims);
+                var b = await _userManager.AddClaimsAsync(newUser, newUserClaims);
                 await _signInManager.SignInAsync(newUser, isPersistent: false);
+                // remove external auth provider cookie
                 await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
-
-                return Redirect("http://localhost:3000");
+                //return Redirect(returnUrl);
             }
-            return Redirect("http://localhost:3000");
+            return Redirect(returnUrl);
         }
 
         /// <summary>
@@ -176,7 +175,6 @@ namespace IdentityAuthServer.Controllers
                 info.ProviderKey,
                 isPersistent: false);
 
-
             if (signInResult.Succeeded)
             {
                 //_logger.LogInformation(5, "User logged in with {Name} provider.", info.LoginProvider);
@@ -186,8 +184,7 @@ namespace IdentityAuthServer.Controllers
             {
                 // If the user does not have an account, then ask the user to create an account.
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-
-                var newUser = new IdentityUser
+                var newUser = new AppUser
                 {
                     UserName = email,
                     Email = email,
@@ -196,6 +193,7 @@ namespace IdentityAuthServer.Controllers
 
                 var createResult = await _userManager.CreateAsync(newUser);
             }
+            return Ok();
         }
 
         public async Task<IActionResult> Logout()
