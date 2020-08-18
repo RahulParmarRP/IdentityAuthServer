@@ -68,7 +68,7 @@ namespace IdentityAuthServer
                     // register your IdentityServer with Google at https://console.developers.google.com
                     // enable the Google+ API
                     // set the redirect URI to https://localhost:5001/signin-google
-                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+                    //options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
                     //options.SignInScheme = IdentityConstants.ExternalScheme;
                     options.ClientId = "563770001825-54sjoif5q2i2rqhnt69d7hhjc2khplec.apps.googleusercontent.com";
                     options.ClientSecret = "Hzim45MejNx8iOilM-RjZ2m_";
