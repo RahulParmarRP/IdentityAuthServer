@@ -37,6 +37,7 @@ https://github.com/jasontaylordev/SecureSpa
 https://github.com/RobertDyball/A2SPA/tree/master/VS2017_2/A2SPA/wwwroot
 
 external login
+https://tools.ietf.org/html/rfc6749#section-10.3
 https://github.com/damienbod/AspNet5IdentityServerAngularImplicitFlow
 https://stackoverflow.com/questions/41040702/asp-net-identity-with-identityserver4-get-external-resource-oauth-access-token
 https://aspnetcorespa.azurewebsites.net/
