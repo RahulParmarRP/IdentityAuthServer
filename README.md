@@ -18,7 +18,6 @@ https://stackoverflow.com/questions/41040702/asp-net-identity-with-identityserve
 https://identitymodel.readthedocs.io/en/latest/native/samples.html
 
 CORS
-
 https://enable-cors.org/server_aspnet.html
 
 ROPS flow
@@ -26,7 +25,6 @@ https://www.red-gate.com/simple-talk/dotnet/net-tools/working-with-identity-serv
 
 extension Grants
 https://www.linkedin.com/pulse/securing-net-core-web-api-identityserver4-using-owner-dalvandi-1?trk=mp-author-card
-
 https://github.com/waqaskhan540/IdentityServerExternalAuth
 https://github.com/ghstahl/IdentityServer4-Extension-Grants
 http://docs.identityserver.io/en/release/topics/extension_grants.html?highlight=GrantValidationResult
@@ -42,14 +40,16 @@ https://github.com/damienbod/AspNet5IdentityServerAngularImplicitFlow
 https://stackoverflow.com/questions/41040702/asp-net-identity-with-identityserver4-get-external-resource-oauth-access-token
 https://aspnetcorespa.azurewebsites.net/
 https://github.com/asadsahi/AspNetCoreSpa
+
 spa + social login + identity server 4 web api
+https://stackoverflow.com/questions/54694466/google-login-in-angular-7-with-net-core-api
+
 https://github.com/ruidfigueiredo/angular-aspnetcore-external-login
 https://www.codementor.io/@onigbindeifeoluwa/third-party-authentication-with-angular-and-asp-net-core-web-api-10qtiu3d4i
 https://stackoverflow.com/questions/55804779/how-to-integrate-social-login-with-existing-net-core-web-api-backend-and-angula
 https://github.com/gary-archer/authguidance.websample1/tree/master/spa
 https://stackoverflow.com/questions/52074290/angular-6-asp-net-not-core-web-api-cors-request-fails?rq=1
 https://github.com/abacritt/angularx-social-login/blob/master/projects/lib/src/socialauth.service.ts
-https://stackoverflow.com/questions/54694466/google-login-in-angular-7-with-net-core-api
 https://github.com/AnkitSharma-007/ASPCore.GoogleAuth/blob/master/GoogleAuth/Startup.cs
 https://espressocoder.com/2019/10/28/secure-your-spa-with-authorization-code-flow-with-pkce/
 https://offering.solutions/blog/articles/2020/05/18/authentication-and-authorization-with-angular-and-asp.net-core-using-oidc-and-oauth2/
@@ -101,7 +101,6 @@ https://stackoverflow.com/questions/44392817/customizing-asp-net-identity
 custom claims
 https://github.com/IdentityServer/IdentityServer4/issues/2272
 https://deblokt.com/2019/09/27/05-identityserver4-adding-custom-properties-to-user/
-
 https://github.com/googleapis/google-api-dotnet-client/blob/master/Src/Support/Google.Apis.Auth.AspNetCore3.IntegrationTests/Controllers/HomeController.cs
 https://github.com/googleapis/google-api-dotnet-client/issues/1486
 https://www.atlanticbt.com/insights/google-auth-tutorial
@@ -109,7 +108,7 @@ https://blog.zhaytam.com/2019/10/03/google-sign-in-asp-net-core-web-api/
 https://stackoverflow.com/questions/48727900/google-jwt-authentication-with-aspnet-core-2-0/48768183#48768183
 https://www.blinkingcaret.com/2017/05/03/external-login-providers-in-asp-net-core/
 
-SPA to Google to SPA to Backend to SPA
+SPA to Google to SPA to Backend to Google to SPA
 https://www.scottbrady91.com/Identity-Server/Getting-Started-with-IdentityServer-4
 https://github.com/scottbrady91/IdentityServer4-Example
 https://www.scottbrady91.com/Angular/Migrating-oidc-client-js-to-use-the-OpenID-Connect-Authorization-Code-Flow-and-PKCE
@@ -129,15 +128,11 @@ https://stackoverflow.com/questions/43351871/identity-server-4-social-login-for-
 I didn’t say “don’t use claims for authorization” – if your authorization is based on identity data, that’s totally fine.
 I am saying that claims should be used to model identity – not permissions.
 https://stackoverflow.com/questions/29048122/token-based-authentication-in-asp-net-core?rq=1
-
 https://stackoverflow.com/questions/54694466/google-login-in-angular-7-with-net-core-api
-
 https://stackoverflow.com/questions/39061310/validate-google-id-token
 https://stackoverflow.com/questions/33973744/validate-google-id-against-a-net-backend-server
-
 https://stackoverflow.com/questions/17114201/validating-google-id-tokens-in-c-sharp
 https://github.com/googleapis/google-api-dotnet-client/blob/master/Src/Support/Google.Apis.Auth.AspNetCore.IntegrationTests/Controllers/HomeController.cs
-
 https://github.com/mickeysden/dotnet-core-react-oauth-example
 
 SPA flows
