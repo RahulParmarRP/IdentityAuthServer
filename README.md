@@ -42,6 +42,7 @@ https://aspnetcorespa.azurewebsites.net/
 https://github.com/asadsahi/AspNetCoreSpa
 
 spa + social login + identity server 4 web api
+https://stackoverflow.com/questions/44172221/generate-access-token-with-identityserver4-without-password/
 https://stackoverflow.com/questions/54694466/google-login-in-angular-7-with-net-core-api
 
 https://github.com/ruidfigueiredo/angular-aspnetcore-external-login
