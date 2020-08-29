@@ -55,11 +55,18 @@ namespace IdentityAuthServer.Controllers
             {
                 var validationSettings = new ValidationSettings();
                 //{ Audience = new[] { "YOUR_CLIENT_ID" } };
-                payload = await GoogleJsonWebSignature.ValidateAsync(
-                    externalLoginModel.IdToken, validationSettings);
-                var user = await GetOrCreateExternalLoginUser("google", payload.Subject, payload.Email);
+
+                payload = await GoogleJsonWebSignature
+                    .ValidateAsync(externalLoginModel.IdToken, validationSettings);
+
+                var user = await GetOrCreateExternalLoginUser(
+                    "google", 
+                    payload.Subject,
+                    payload.Email);
+
                 // create custom claims for the user found from Google idToken
                 var userRoleClaim = new Claim("userRole", externalLoginModel.UserRole);
+
                 var result = await _userManager.AddClaimAsync(user, userRoleClaim);
 
                 // get the new IdentityServer4 issued access token for the user
@@ -74,9 +81,12 @@ namespace IdentityAuthServer.Controllers
                         userRoleClaim
                     });
 
-                var iwttoken = await _identityServerTools
-                   .IssueJwtAsync(lifetime: 15,
-                   claims: new List<Claim>() { userRoleClaim });
+                var jwttoken = await _identityServerTools
+                   .IssueJwtAsync(
+                   lifetime: 15,
+                   claims: new List<Claim>() {
+                       userRoleClaim
+                   });
 
                 return Ok(new
                 {
