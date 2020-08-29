@@ -35,10 +35,11 @@ namespace IdentityAuthServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options => options.AddPolicy("AllowAll", p =>
-            p.AllowAnyOrigin()
-             .AllowAnyMethod()
-             .AllowAnyHeader()));
+            services.AddCors(options =>
+            options.AddPolicy("AllowAll", policy => policy
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader()));
 
             var connectionString = Configuration.GetConnectionString("MSSqlServerConnection");
 
@@ -61,9 +62,23 @@ namespace IdentityAuthServer
                 ;
 
             //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            // services.AddAuthentication(options =>
+            //{
+            //    // This causes the default authentication scheme to be JWT.
+            //    // Without this, the Authorization header is not checked and
+            //    // you'll get no results. However, this also means that if
+            //    // you're already using cookies in your app, they won't be 
+            //    // checked by default.
+            //    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //});
+
+
             services.AddAuthentication()
+                //.AddJwtBearer()
+                //.AddOpenIdConnect()
                 .AddGoogle("Google", options =>
                 {
+                    //options.SignInScheme = IdentityServerConstants.JwtRequestClientKey;
                     //https://docs.identityserver.io/en/release/quickstarts/4_external_authentication.html
                     // register your IdentityServer with Google at https://console.developers.google.com
                     // enable the Google+ API
@@ -72,6 +87,7 @@ namespace IdentityAuthServer
                     //options.SignInScheme = IdentityConstants.ExternalScheme;
                     options.ClientId = "563770001825-54sjoif5q2i2rqhnt69d7hhjc2khplec.apps.googleusercontent.com";
                     options.ClientSecret = "Hzim45MejNx8iOilM-RjZ2m_";
+                    options.SaveTokens = true;
                 });
             ;
 
