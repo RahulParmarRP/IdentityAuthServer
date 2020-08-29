@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityAuthServer.Models;
+using IdentityModel;
 using IdentityServer4;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
@@ -81,12 +82,38 @@ namespace IdentityAuthServer.Controllers
             return Challenge(properties, scheme);
         }
 
+        /**
+         * 
+         * 
+         * Hi all. Can anyone point me in the right direction for this?:
+We have an existing resource server (RS) that currently handles all of the authentication.
+We have a single page application (SPA), and mobile clients (MC).
+We use external providers (Google, Twitter, etc.) (EP)
+Social sign in with the web client is currently the following flow: SPA redirects to RS, which redirects to the EP. EP redirects to the RS and then the RS passes tokens in SPA redirect URL. SPA uses tokens to register/login by calling the correct API, passing the tokens back to the server. This call results in resource server access/refresh tokens.
+Login with our database is a straight-forward oauth token call.
+We would like to create users on the RS because we feel that's a separate concern to authentication.
+What we're trying to do now is start to migrate this flow to IdentityServer4, without trusting the client with the external provider's tokens. It seems like the hybrid flow might be a way to do this, but I don't understand how we can make that work with our SPA and creating users on the RS. Any advice would be appreciated. Even if we created the user on the identity server, I don't see how we can then create the authentication tokens for use with the SPA and mobile clients.
+         */
+
         //[HttpGet]
         [HttpGet]
         //[AllowAnonymous]
         [Route("ExternalLoginCallback")]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
         {
+
+            var result2 = await HttpContext.AuthenticateAsync(IdentityServer4.IdentityServerConstants.ExternalCookieAuthenticationScheme);
+
+            // read external identity from the temporary cookie
+            var result1 = await HttpContext.AuthenticateAsync(IdentityConstants.ExternalScheme);
+
+            ////get the tokens
+            //var tokens = result2.Properties.GetTokens();
+            //var idToken = tokens.Where(x => x.Name.Equals("id_token")).FirstOrDefault().Value;
+            //get the tokens
+            var tokens = result1.Properties.GetTokens();
+            //var idToken = tokens.Where(x => x.Name.Equals("id_token")).FirstOrDefault().Value;
+            var accessToken2 = tokens.Where(x => x.Name.Equals("access_token")).FirstOrDefault().Value;
 
             // read external identity from the temporary cookie
             //var aresult = await HttpContext.AuthenticateAsync(IdentityServerConstants.ExternalCookieAuthenticationScheme);
@@ -107,7 +134,7 @@ namespace IdentityAuthServer.Controllers
                 //CredentialsDTO credentials = _authService.ExternalSignIn(info);
                 //return new RedirectResult($"{returnUrl}?token={credentials.JWTToken}");
                 //return RedirectToLocal(returnUrl);
-
+                var accessToken = await HttpContext.GetTokenAsync("access_token");
                 var externalResult = await _signInManager
                     .UpdateExternalAuthenticationTokensAsync(info);
                 //_logger.LogInformation(5, "User logged in with {Name} provider.", info.LoginProvider);
@@ -132,14 +159,34 @@ namespace IdentityAuthServer.Controllers
                         .Select(e => e.Description)
                         .Aggregate((errors, error) => $"{errors}, {error}"));
                 }
+                //await _userManager.AddClaimAsync(newUser,
+                //       info.Principal.FindFirst("urn:google:picture"));
 
                 var a = await _userManager.AddLoginAsync(newUser, info);
-                var newUserClaims = info.Principal.Claims.Append(new Claim("userId", newUser.Id));
-                var b = await _userManager.AddClaimsAsync(newUser, newUserClaims);
+
+                var additionalClaims = info.Principal.Claims.Append(new Claim("userId", newUser.Id));
+
+                var b = await _userManager.AddClaimsAsync(newUser, additionalClaims);
+
+
+                // Include the access token in the properties
+                var props = new AuthenticationProperties();
+                props.StoreTokens(info.AuthenticationTokens);
+                props.IsPersistent = true;
+
+
                 await _signInManager.SignInAsync(newUser, isPersistent: false);
+
                 // remove external auth provider cookie
+                var accessToken = await HttpContext.GetTokenAsync("access_token");
                 await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
-                //return Redirect(returnUrl);
+
+                //_logger.LogInformation(
+                //    "User created an account using {Name} provider.",
+                //    info.LoginProvider);
+
+                //return LocalRedirect(returnUrl);
+                return Redirect(returnUrl);
             }
             return Redirect(returnUrl);
         }
@@ -157,6 +204,11 @@ namespace IdentityAuthServer.Controllers
                 throw new Exception("External authentication error");
             }
 
+            var result2 = await HttpContext.AuthenticateAsync(IdentityServer4.IdentityServerConstants.ExternalCookieAuthenticationScheme);
+
+            //get the tokens
+            var tokens = result.Properties.GetTokens();
+            var idToken = tokens.Where(x => x.Name.Equals("id_token")).FirstOrDefault().Value;
             //if (_logger.IsEnabled(LogLevel.Debug))
             //{
             //    var externalClaims = result.Principal.Claims.Select(c => $"{c.Type}: {c.Value}");
@@ -175,10 +227,14 @@ namespace IdentityAuthServer.Controllers
                 info.ProviderKey,
                 isPersistent: false);
 
+            var emailClaim = ClaimTypes.Email;
+
             if (signInResult.Succeeded)
             {
                 //_logger.LogInformation(5, "User logged in with {Name} provider.", info.LoginProvider);
                 //return RedirectToLocal(returnUrl);
+                var user = await _userManager.FindByNameAsync(info.Principal.FindFirstValue(emailClaim));
+                await _signInManager.UpdateExternalAuthenticationTokensAsync(info);
             }
             else if (!signInResult.Succeeded) //user does not exist yet
             {
