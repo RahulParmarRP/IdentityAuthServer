@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IdentityAuthServer.Data;
+using IdentityAuthServer.Interfaces;
 using IdentityAuthServer.Models;
+using IdentityAuthServer.Processors;
 using IdentityAuthServer.Services;
 using IdentityServer4;
 using IdentityServer4.AspNetIdentity;
@@ -93,9 +95,10 @@ namespace IdentityAuthServer
 
             // auto added by ASP NET Web API
             services.AddControllers();
-
             services.AddScoped<IProfileService, CustomProfileService>();
             services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, CustomUserClaimsPrincipalFactory>();
+            services.AddScoped<INonEmailUserProcessor, NonEmailUserProcessor>();
+            services.AddScoped<IEmailUserProcessor, EmailUserProcessor>();
 
             // identity server service configs
             var builder = services
@@ -117,6 +120,7 @@ namespace IdentityAuthServer
                 // needed for asp net identity to run with
                 // identity server integration
                 .AddAspNetIdentity<AppUser>()
+                .AddExtensionGrantValidator<CustomExternalGrantValidator>()
                 //.AddProfileService<IdentityWithAdditionalClaimsProfileService>()
                 .AddProfileService<CustomProfileService>()
             ;
