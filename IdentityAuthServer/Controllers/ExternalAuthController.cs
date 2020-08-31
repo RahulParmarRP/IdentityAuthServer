@@ -60,7 +60,7 @@ namespace IdentityAuthServer.Controllers
                     .ValidateAsync(externalLoginModel.IdToken, validationSettings);
 
                 var user = await GetOrCreateExternalLoginUser(
-                    "google", 
+                    "google",
                     payload.Subject,
                     payload.Email);
 
