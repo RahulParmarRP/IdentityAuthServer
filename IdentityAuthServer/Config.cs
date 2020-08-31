@@ -196,6 +196,24 @@ namespace IdentityAuthServer
                         "http://localhost:3000"
                     },
                     AllowAccessTokensViaBrowser = true
+                },
+                new Client
+                {
+                    ClientId = "spa_custom_external_login_provider_grant_extension",
+                    ClientName = "SPA Client Custom Grant Extension",
+                    AllowedGrantTypes =  new List<string> {
+                        GrantType.ResourceOwnerPassword,
+                        "custom_external_grant"
+                    },
+                    ClientSecrets =
+                    {
+                        new Secret("secret".Sha256())
+                    },
+                    // scopes that client has access to
+                    AllowedScopes =
+                    {
+                        "api1"
+                    },
                 }
             };
 
