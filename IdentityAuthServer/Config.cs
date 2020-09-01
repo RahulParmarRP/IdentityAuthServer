@@ -212,7 +212,12 @@ namespace IdentityAuthServer
                     // scopes that client has access to
                     AllowedScopes =
                     {
-                        "api1"
+                        "api1",
+                        StandardScopes.Profile,
+                        StandardScopes.Email,
+                        //StandardScopes.OpenId,
+                        //"read", "write", "delete",
+                        "customRoleClaim"
                     },
                 }
             };
