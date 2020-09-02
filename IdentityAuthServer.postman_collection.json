@@ -537,6 +537,130 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "https://localhost:5001/api/externalauth2/ExternalLogin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:5001/api/externalauth2/ExternalLogin",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"externalauth2",
+								"ExternalLogin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:5001/api/externalauth2/ExternalLogin?provider=Google&returnUrl=http://localhost:3000",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:5001/api/externalauth2/ExternalLogin?provider=Google&returnUrl=http://localhost:3000",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"externalauth2",
+								"ExternalLogin"
+							],
+							"query": [
+								{
+									"key": "provider",
+									"value": "Google"
+								},
+								{
+									"key": "returnUrl",
+									"value": "http://localhost:3000"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:5001/connect/token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "custom_external_grant",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "spa_custom_external_login_provider_grant_extension",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "secret",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "api1",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "user",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "user",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "id_token",
+									"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjBhN2RjMTI2NjQ1OTBjOTU3ZmZhZWJmN2I2NzE4Mjk3Yjg2NGJhOTEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiNTYzNzcwMDAxODI1LW02MmJoMmExaTU5ZTdwcGVzZXV0bmZjaGU0ZGRrMmtlLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiNTYzNzcwMDAxODI1LW02MmJoMmExaTU5ZTdwcGVzZXV0bmZjaGU0ZGRrMmtlLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTE3OTEwOTQzMDM2NDM5MTMwNDUyIiwiZW1haWwiOiJyYWh1bC5wYXJtYXIudGF0dmFzb2Z0QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoib2IwRDUybzJBWHZrdUxsOU5JRTR2ZyIsIm5hbWUiOiJSYWh1bCBQYXJtYXIiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy10c1NuT0xRNTM1MC9BQUFBQUFBQUFBSS9BQUFBQUFBQUFBQS9BTVp1dWNuTDhPYWRFRlp5VjNGaV9KSHZyazNHX3hSSjBBL3M5Ni1jL3Bob3RvLmpwZyIsImdpdmVuX25hbWUiOiJSYWh1bCIsImZhbWlseV9uYW1lIjoiUGFybWFyIiwibG9jYWxlIjoiZW4iLCJpYXQiOjE1OTg4NzU0MTIsImV4cCI6MTU5ODg3OTAxMiwianRpIjoiNDhhMWRlZTczY2NmMTkyZDg3MDUyMGJlY2I4ZTIwNzY1NmM3NDliMCJ9.H931GODG0v2cwwE4ssxMJAL86sXHBXtlX_76Icnx94kjKKG7phxr1Dr1ELGEnMiQVkmKKbnPDTXTo2cKQfyZwe8BsX1JKa4nQYNjJi8GpzxzAG7jwG_QYlEWKCIH-4tY-mTgTPAyHrrYfHdAI3Y2oJiTiuP_PckNeu5z8ZpSCwDtnXeyPo1SLEaEjZckQ2_2qke2-Tr1nG3cD3WkvgW0GUOk3253xk9oW6bg8hh81eoEdBFbf0dt0uvY0x-VefwvSqSttvLpSTojgWKBo06MGWazaPqtU5Og7XIBx1N9SZG_heYXY1lZj3mY4BWAV5yijihaeZFxaj5_bfTizaUVIw",
+									"type": "text"
+								},
+								{
+									"key": "provider",
+									"value": "google",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5001/connect/token",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"connect",
+								"token"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
