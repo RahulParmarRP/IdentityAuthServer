@@ -28,48 +28,52 @@ namespace TestWebAPI
         {
             services.AddControllers();
 
-
-
             /*
-             * As well, we’ve turned off the JWT claim type mapping 
-             * to allow well-known claims (e.g. ‘sub’ and ‘idp’) to flow through unmolested:
+             * As well, weï¿½ve turned off the JWT claim type mapping
+             * to allow well-known claims (e.g. ï¿½subï¿½ and ï¿½idpï¿½) to flow through unmolested:
              * JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
              */
-
             /*
              * Authentication with an additional AddIdentityServerJwt helper method that configures the app to validate JWT tokens produced by IdentityServer:
                 services.AddAuthentication()
                     .AddIdentityServerJwt();
              */
-
             // accepts any access token issued by identity server
-            services.AddAuthentication("JWTBearerToken") // custom scheme name
-                 .AddJwtBearer("JWTBearerToken", options =>
-                 {
-                     options.Authority = "https://localhost:5001";
-                     //options.Audience = "api1";
-                     options.RequireHttpsMetadata = false;
-                     options.TokenValidationParameters =
-                     new TokenValidationParameters
-                     {
-                         ValidateAudience = false
-                     };
-                 });
+            services
+                .AddAuthentication("JWTBearerToken") // custom scheme name
+                .AddJwtBearer("JWTBearerToken",
+                options =>
+                {
+                    options.Authority = "https://localhost:5001";
+
+                    //options.Audience = "api1";
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters =
+                        new TokenValidationParameters
+                        {
+                            ValidateAudience = false
+                        };
+                });
 
             // adds an authorization policy to make sure the token is for scope 'api1'
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("AuthorizeByApiScope", policy =>
+            services
+                .AddAuthorization(options =>
                 {
-                    policy.RequireAuthenticatedUser();
-                    policy.RequireClaim("scope", "api1");
+                    options
+                        .AddPolicy("AuthorizeByApiScope",
+                        policy =>
+                        {
+                            policy.RequireAuthenticatedUser();
+                            policy.RequireClaim("scope", "api1");
+                        });
+                    options
+                        .AddPolicy("UserSecure",
+                        policy => policy.RequireClaim("userRole", "endUser"));
+                    options
+                        .AddPolicy("AdminSecure",
+                        policy =>
+                            policy.RequireClaim("userRole", "clientAdmin"));
                 });
-                options.AddPolicy("UserSecure", policy =>
-                    policy.RequireClaim("userRole", "endUser"));
-                options.AddPolicy("AdminSecure",
-                    policy => policy.RequireClaim("userRole", "clientAdmin"));
-            });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -83,6 +87,7 @@ namespace TestWebAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
             /*
                 In some cases, the call to AddAuthentication is automatically made by other extension methods. For example, when using ASP.NET Core Identity, AddAuthentication is called internally.
 
@@ -91,20 +96,21 @@ namespace TestWebAPI
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints
-                .MapControllers()
-                // auth policy name
-                /*
+            app
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints
+                        .MapControllers()
+                        // auth policy name 
+                        /*
                  * You can now enforce this policy at various levels, e.g.
-                    globally
-                    for all API endpoints
-                    for specific controllers/actions using [Authorize] attribute
+                 * globally
+                 * for all API endpoints
+                 * for specific controllers/actions using [Authorize] attribute
                  * Typically you setup the policy for all API endpoints in the routing system:
                  */
-                .RequireAuthorization("AuthorizeByApiScope");
-            });
+                        .RequireAuthorization("AuthorizeByApiScope");
+                });
         }
     }
 }
