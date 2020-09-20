@@ -64,6 +64,8 @@ namespace IdentityAuthServer.Controllers
                     payload.Subject,
                     payload.Email);
 
+                var profilePicture = payload.Picture;
+                
                 // create custom claims for the user found from Google idToken
                 var userRoleClaim = new Claim("userRole", externalLoginModel.UserRole);
 
