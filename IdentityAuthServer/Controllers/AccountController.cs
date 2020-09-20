@@ -45,7 +45,7 @@ namespace IdentityAuthServer.Controllers
         [Route("register")]
         //[AllowAnonymous]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public async Task<IActionResult> RegisterAndSignInSimultaneously(RegisterViewModel model)
         {
             // ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)

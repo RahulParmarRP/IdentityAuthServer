@@ -101,7 +101,6 @@ What we're trying to do now is start to migrate this flow to IdentityServer4, wi
         [Route("ExternalLoginCallback")]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
         {
-
             var result2 = await HttpContext.AuthenticateAsync(IdentityServer4.IdentityServerConstants.ExternalCookieAuthenticationScheme);
 
             // read external identity from the temporary cookie
@@ -116,8 +115,9 @@ What we're trying to do now is start to migrate this flow to IdentityServer4, wi
             var accessToken2 = tokens.Where(x => x.Name.Equals("access_token")).FirstOrDefault().Value;
 
             // read external identity from the temporary cookie
-            //var aresult = await HttpContext.AuthenticateAsync(IdentityServerConstants.ExternalCookieAuthenticationScheme);
-            //if (aresult?.Succeeded != true)
+            //var authresult = await HttpContext.AuthenticateAsync(IdentityServerConstants.ExternalCookieAuthenticationScheme);
+
+            //if (authresult?.Succeeded != true)
             //{
             //    throw new Exception("External authentication error");
             //}
@@ -167,7 +167,6 @@ What we're trying to do now is start to migrate this flow to IdentityServer4, wi
                 var additionalClaims = info.Principal.Claims.Append(new Claim("userId", newUser.Id));
 
                 var b = await _userManager.AddClaimsAsync(newUser, additionalClaims);
-
 
                 // Include the access token in the properties
                 var props = new AuthenticationProperties();

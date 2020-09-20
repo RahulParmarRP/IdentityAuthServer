@@ -38,14 +38,16 @@ namespace IdentityAuthServer.Services
             var provider = context.Request.Raw.Get("provider");
             if (string.IsNullOrEmpty(provider))
             {
-                context.Result = new GrantValidationResult(TokenRequestErrors.InvalidRequest, "invalid provider");
+                context.Result = new GrantValidationResult(TokenRequestErrors.InvalidRequest,
+                    "invalid provider");
                 return;
             }
 
             var token = context.Request.Raw.Get("id_token");
             if (string.IsNullOrEmpty(token))
             {
-                context.Result = new GrantValidationResult(TokenRequestErrors.InvalidRequest, "invalid external token");
+                context.Result = new GrantValidationResult(TokenRequestErrors.InvalidRequest,
+                    "invalid external token");
                 return;
             }
 
@@ -57,32 +59,39 @@ namespace IdentityAuthServer.Services
 
             if (userInfoPayload == null)
             {
-                context.Result = new GrantValidationResult(TokenRequestErrors.InvalidRequest, "couldn't retrieve user info from specified provider, please make sure that token is not expired.");
+                context.Result = new GrantValidationResult(TokenRequestErrors.InvalidRequest,
+                    "couldn't retrieve user info from specified provider, please make sure that token is not expired.");
                 return;
             }
 
+            // this part signs in user if already exists
             var externalId = userInfoPayload.Subject;
             if (!string.IsNullOrEmpty(externalId))
             {
                 var user = await _userManager.FindByLoginAsync(provider, externalId);
-                if (null != user)
+                if (user != null)
                 {
+                    // to find the user extra claims
                     user = await _userManager.FindByIdAsync(user.Id);
                     var userClaims = await _userManager.GetClaimsAsync(user);
-                    context.Result = new GrantValidationResult(user.Id, provider, userClaims, provider, null);
+                    context.Result = new GrantValidationResult(user.Id,
+                        provider, userClaims, provider, null);
                     return;
                 }
             }
 
+            // this part registers user
             // get email from the post request context
             var requestEmail = context.Request.Raw.Get("email");
             if (string.IsNullOrEmpty(requestEmail))
             {
-                context.Result = await _nonEmailUserProcessor.ProcessAsync(userInfoPayload, provider);
+                context.Result = await _nonEmailUserProcessor.ProcessAsync(userInfoPayload,
+                    provider);
                 return;
             }
 
-            context.Result = await _emailUserProcessor.ProcessAsync(userInfoPayload, requestEmail, provider);
+            context.Result = await _emailUserProcessor.ProcessAsync(userInfoPayload,
+                requestEmail, provider);
             return;
         }
     }
