@@ -98,11 +98,6 @@ namespace IdentityAuthServer
                 })
             ;
 
-            services.AddScoped<IProfileService, CustomProfileService>();
-            services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, CustomUserClaimsPrincipalFactory>();
-            services.AddScoped<INonEmailUserProcessor, NonEmailUserProcessor>();
-            services.AddScoped<IEmailUserProcessor, EmailUserProcessor>();
-
             // identity server service configs
             var builder = services
                 .AddIdentityServer()
@@ -127,6 +122,11 @@ namespace IdentityAuthServer
                 //.AddProfileService<IdentityWithAdditionalClaimsProfileService>()
                 .AddProfileService<CustomProfileService>()
             ;
+
+            services.AddScoped<IProfileService, CustomProfileService>();
+            services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, CustomUserClaimsPrincipalFactory>();
+            services.AddScoped<INonEmailUserProcessor, NonEmailUserProcessor>();
+            services.AddScoped<IEmailUserProcessor, EmailUserProcessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
