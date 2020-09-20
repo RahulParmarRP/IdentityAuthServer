@@ -65,7 +65,7 @@ namespace IdentityAuthServer.Controllers
                     payload.Email);
 
                 var profilePicture = payload.Picture;
-                
+
                 // create custom claims for the user found from Google idToken
                 var userRoleClaim = new Claim("userRole", externalLoginModel.UserRole);
 
@@ -95,7 +95,7 @@ namespace IdentityAuthServer.Controllers
                     access_token = "want_to_give_identity_server4_provided_token"
                 });
             }
-            catch
+            catch (Exception ex)
             {
                 // Invalid token
             }

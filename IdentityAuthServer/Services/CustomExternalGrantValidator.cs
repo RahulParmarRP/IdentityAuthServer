@@ -64,6 +64,19 @@ namespace IdentityAuthServer.Services
                 return;
             }
 
+            /**
+             *  // Get profile information from payload
+             *   String email = payload.getEmail();
+             *   boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
+             *   String name = (String) payload.get("name");
+             *   String pictureUrl = (String) payload.get("picture");
+             *   String locale = (String) payload.get("locale");
+             *   String familyName = (String) payload.get("family_name");
+             *   String givenName = (String) payload.get("given_name");
+             *
+             *   // Use or store profile information
+             */
+
             // this part signs in user if already exists
             var externalId = userInfoPayload.Subject;
             if (!string.IsNullOrEmpty(externalId))

@@ -13,7 +13,6 @@ namespace IdentityAuthServer.Services
 {
     public class CustomProfileService : IProfileService
     {
-
         private readonly UserManager<AppUser> _userManager;
 
         public CustomProfileService(UserManager<AppUser> userManager)

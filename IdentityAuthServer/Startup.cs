@@ -21,6 +21,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 
 namespace IdentityAuthServer
 {
@@ -75,6 +76,9 @@ namespace IdentityAuthServer
             //    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             //});
 
+            // auto added by ASP NET Web API
+            services.AddControllers();
+
             services
                 .AddAuthentication()
                 //.AddJwtBearer()
@@ -94,8 +98,6 @@ namespace IdentityAuthServer
                 })
             ;
 
-            // auto added by ASP NET Web API
-            services.AddControllers();
             services.AddScoped<IProfileService, CustomProfileService>();
             services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, CustomUserClaimsPrincipalFactory>();
             services.AddScoped<INonEmailUserProcessor, NonEmailUserProcessor>();
@@ -164,6 +166,7 @@ namespace IdentityAuthServer
             // needed to add identity server and find its 
             // discovery document end point 
             app.UseIdentityServer();
+            //app.UseAuthentication();
             app.UseAuthorization();
 
             // needed for MVC based routing in Web API
