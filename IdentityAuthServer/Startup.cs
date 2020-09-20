@@ -91,7 +91,7 @@ namespace IdentityAuthServer
                     options.ClientId = "563770001825-54sjoif5q2i2rqhnt69d7hhjc2khplec.apps.googleusercontent.com";
                     options.ClientSecret = "Hzim45MejNx8iOilM-RjZ2m_";
                     options.SaveTokens = true;
-                });
+                })
             ;
 
             // auto added by ASP NET Web API
