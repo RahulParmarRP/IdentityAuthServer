@@ -47,7 +47,8 @@ namespace IdentityAuthServer
 
             var connectionString = Configuration.GetConnectionString("MSSqlServerConnection");
 
-            services.AddDbContext<AppDatabaseContext>(
+            services
+                .AddDbContext<AppDatabaseContext>(
                 options => options.UseSqlServer(connectionString));
 
             /* Note that AddIdentity<ApplicationUser, IdentityRole> 
@@ -166,7 +167,6 @@ namespace IdentityAuthServer
             // needed to add identity server and find its 
             // discovery document end point 
             app.UseIdentityServer();
-            //app.UseAuthentication();
             app.UseAuthorization();
 
             // needed for MVC based routing in Web API
