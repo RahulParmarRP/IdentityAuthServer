@@ -7,7 +7,6 @@ using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
-using static IdentityServer4.IdentityServerConstants;
 
 namespace IdentityAuthServer
 {
@@ -26,9 +25,9 @@ namespace IdentityAuthServer
                     DisplayName="Your profile data",
                     UserClaims =  new List<string>
                     {
-                        "userRole"
-                        //"TestRole",
-                        //"roleType"
+                        "userRole",
+                        "TestRole",
+                        "roleType"
                     }
                 }
             };
@@ -41,7 +40,9 @@ namespace IdentityAuthServer
                 JwtClaimTypes.Name,
                 JwtClaimTypes.Email,
                 JwtClaimTypes.Profile,
-                "userRole","TestRole","roleType"
+                "userRole",
+                "TestRole",
+                "roleType"
             };
 
             return new List<ApiResource>
@@ -52,7 +53,10 @@ namespace IdentityAuthServer
                     Name = "api2",
                     DisplayName = "API #2",
                     Description = "Allow the application to access API #2 on your behalf",
-                    Scopes = new List<string> {"api2.read", "api2.write"},
+                    Scopes = new List<string> {
+                        "api2.read",
+                        "api2.write"
+                    },
                     ApiSecrets = new List<Secret> {new Secret("ScopeSecret".Sha256())},
                     UserClaims = new List<string> {"role"}
                 }
@@ -127,8 +131,8 @@ namespace IdentityAuthServer
                     AllowedScopes =
                     {
                         "api1",
-                        StandardScopes.Profile,
-                        StandardScopes.Email,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email,
                         //StandardScopes.OpenId,
                         //"read", "write", "delete",
                         "customRoleClaim"
@@ -213,10 +217,10 @@ namespace IdentityAuthServer
                     AllowedScopes =
                     {
                         "api1",
-                        StandardScopes.Profile,
-                        StandardScopes.Email,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email,
                         // openid scope also enables userinfo endpoint
-                        StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.OpenId,
                         //"read", "write", "delete",
                         "customRoleClaim"
                     },
