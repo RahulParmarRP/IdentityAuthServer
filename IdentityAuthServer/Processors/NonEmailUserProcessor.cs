@@ -14,21 +14,19 @@ namespace IdentityAuthServer.Processors
     public class NonEmailUserProcessor : INonEmailUserProcessor
     {
         private readonly UserManager<AppUser> _userManager;
-        public NonEmailUserProcessor(
-            UserManager<AppUser> userManager
-            )
+        public NonEmailUserProcessor(UserManager<AppUser> userManager)
         {
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         }
 
-        public async Task<GrantValidationResult> ProcessAsync(GoogleJsonWebSignature.Payload userInfo, string provider)
+        public async Task<GrantValidationResult> ProcessAsync(GoogleJsonWebSignature.Payload userInfo,
+            string provider)
         {
             var userEmail = userInfo.Email;
+            var userExternalId = userInfo.Subject;
 
             //if (provider.ToLower() == "linkedin")
             //    userEmail = userInfo.Value<string>("emailAddress");
-
-            var userExternalId = userInfo.Subject;
 
             if (userEmail == null)
             {
@@ -37,31 +35,39 @@ namespace IdentityAuthServer.Processors
                 {
                     var customResponse = new Dictionary<string, object>();
                     customResponse.Add("userInfo", userInfo);
-                    return new GrantValidationResult(TokenRequestErrors.InvalidRequest, "could not retrieve user's email from the given provider, include email parameter and send request again.", customResponse);
+                    return new GrantValidationResult(TokenRequestErrors.InvalidRequest,
+                        "could not retrieve user's email from the given provider, include email parameter and send request again.", customResponse);
                 }
                 else
                 {
                     existingUser = await _userManager.FindByIdAsync(existingUser.Id);
+                    // get user claims and add into access token
                     var userClaims = await _userManager.GetClaimsAsync(existingUser);
-                    return new GrantValidationResult(existingUser.Id, provider, userClaims, provider, null);
+                    return new GrantValidationResult(existingUser.Id,
+                        provider, userClaims, provider, null);
                 }
-
             }
             else
             {
-                var newUser = new AppUser { Email = userEmail, UserName = userEmail };
+                var newUser = new AppUser
+                {
+                    Email = userEmail,
+                    UserName = userEmail
+                };
                 var result = await _userManager.CreateAsync(newUser);
                 if (result.Succeeded)
                 {
                     // Link the user to this login
-                    var userLoginInfo = new UserLoginInfo(provider, userExternalId, provider.ToUpperInvariant());
+                    var userLoginInfo = new UserLoginInfo(provider,
+                        userExternalId, provider.ToUpperInvariant());
 
                     await _userManager.AddLoginAsync(newUser, userLoginInfo);
 
                     var userClaims = await _userManager.GetClaimsAsync(newUser);
                     return new GrantValidationResult(newUser.Id, provider, userClaims, provider, null);
                 }
-                return new GrantValidationResult(TokenRequestErrors.InvalidRequest, "user could not be created, please try again");
+                return new GrantValidationResult(TokenRequestErrors.InvalidRequest, 
+                    "user could not be created, please try again");
             }
         }
     }
