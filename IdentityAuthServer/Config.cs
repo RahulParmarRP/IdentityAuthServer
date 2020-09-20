@@ -134,7 +134,7 @@ namespace IdentityAuthServer
                         "customRoleClaim"
                     },
 
-                    /*AlwaysSendClientClaims
+                    /* AlwaysSendClientClaims
                      * If set, the client claims will be sent for every flow. 
                      * If not, only for client credentials flow (default is false)
                      */
@@ -215,7 +215,8 @@ namespace IdentityAuthServer
                         "api1",
                         StandardScopes.Profile,
                         StandardScopes.Email,
-                        //StandardScopes.OpenId,
+                        // openid scope also enables userinfo endpoint
+                        StandardScopes.OpenId,
                         //"read", "write", "delete",
                         "customRoleClaim"
                     },
