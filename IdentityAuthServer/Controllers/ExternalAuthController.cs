@@ -69,6 +69,16 @@ namespace IdentityAuthServer.Controllers
                 // create custom claims for the user found from Google idToken
                 var userRoleClaim = new Claim("userRole", externalLoginModel.UserRole);
 
+                /*
+                result = userMgr.AddClaimsAsync(bob, new Claim[]{
+                            new Claim(JwtClaimTypes.Name, "Bob Smith"),
+                            new Claim(JwtClaimTypes.GivenName, "Bob"),
+                            new Claim(JwtClaimTypes.FamilyName, "Smith"),
+                            new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
+                            new Claim("location", "somewhere")
+                        }).Result;
+                */
+
                 var result = await _userManager.AddClaimAsync(user, userRoleClaim);
 
                 // get the new IdentityServer4 issued access token for the user
