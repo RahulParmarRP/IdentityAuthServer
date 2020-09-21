@@ -81,6 +81,23 @@ namespace IdentityAuthServer
             services.AddControllers();
 
             services
+                .AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(options =>
+            {
+                options.Authority = "https://localhost:5001";
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateAudience = false
+                };
+            })
+                ;
+
+            services
                 .AddAuthentication()
                 //.AddJwtBearer()
                 //.AddOpenIdConnect()
@@ -97,6 +114,29 @@ namespace IdentityAuthServer
                     options.ClientSecret = "Hzim45MejNx8iOilM-RjZ2m_";
                     options.SaveTokens = true;
                 })
+            ;
+
+            // adds an authorization policy to make sure the token is for scope 'api1'
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ApiScope", policy =>
+                {
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireClaim("scope", "api1");
+                });
+                options.AddPolicy("PublicSecure",
+                   policy => policy.RequireClaim("client_id", "spa_custom_external_login_provider_grant_extension"));
+                options.AddPolicy("UserSecure",
+                    policy => policy.RequireClaim("userRole", "endUser"));
+                options.AddPolicy("AdminSecure",
+                    policy => policy.RequireClaim("userRole", "clientAdmin"));
+                options.AddPolicy("AuthorizeByApiScope",
+                    policy =>
+                    {
+                        policy.RequireAuthenticatedUser();
+                        policy.RequireClaim("scope", "api1");
+                    });
+            })
             ;
 
             // identity server service configs
