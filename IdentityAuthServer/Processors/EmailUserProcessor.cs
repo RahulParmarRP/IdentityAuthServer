@@ -30,6 +30,7 @@ namespace IdentityAuthServer.Processors
                     "could not retrieve user Id from the token provided");
             }
 
+            // user with specific email already exists
             var existingUser = _userManager.FindByEmailAsync(userEmail).Result;
             if (existingUser != null)
             {
@@ -37,19 +38,28 @@ namespace IdentityAuthServer.Processors
                     "User with specified email already exists");
             }
 
+            // start creating new user
+
             var newUser = new AppUser
             {
                 Email = userEmail,
                 UserName = userEmail
             };
 
-            var result = _userManager.CreateAsync(newUser).Result;
-            if (result.Succeeded)
+            var identityResult = _userManager.CreateAsync(newUser).Result;
+
+            // new user created
+            if (identityResult.Succeeded)
             {
+                // create user login object
                 var userLoginInfo = new UserLoginInfo(provider, userExternalId, provider);
-                await _userManager.AddLoginAsync(newUser, userLoginInfo);
+
+                // sign in or log in newly created user
+                var userLoggedInResult = await _userManager.AddLoginAsync(newUser, userLoginInfo);
+
                 // get user claims and add into access token
                 var userClaims = _userManager.GetClaimsAsync(newUser).Result;
+
                 return new GrantValidationResult(newUser.Id, provider, userClaims, provider, null);
             }
             return new GrantValidationResult(TokenRequestErrors.InvalidRequest,

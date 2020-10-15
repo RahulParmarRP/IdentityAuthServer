@@ -35,16 +35,16 @@ namespace IdentityAuthServer.Services
 
         public async Task ValidateAsync(ExtensionGrantValidationContext context)
         {
-            var provider = context.Request.Raw.Get("provider");
-            if (string.IsNullOrEmpty(provider))
+            var providerName = context.Request.Raw.Get("provider");
+            if (string.IsNullOrEmpty(providerName))
             {
                 context.Result = new GrantValidationResult(TokenRequestErrors.InvalidRequest,
                     "invalid provider");
                 return;
             }
 
-            var token = context.Request.Raw.Get("id_token");
-            if (string.IsNullOrEmpty(token))
+            var idToken = context.Request.Raw.Get("id_token");
+            if (string.IsNullOrEmpty(idToken))
             {
                 context.Result = new GrantValidationResult(TokenRequestErrors.InvalidRequest,
                     "invalid external token");
@@ -55,7 +55,7 @@ namespace IdentityAuthServer.Services
             //{ Audience = new[] { "YOUR_CLIENT_ID" } };
 
             Payload userInfoPayload = await GoogleJsonWebSignature
-                .ValidateAsync(token, validationSettings);
+                .ValidateAsync(idToken, validationSettings);
 
             if (userInfoPayload == null)
             {
@@ -77,18 +77,24 @@ namespace IdentityAuthServer.Services
              *   // Use or store profile information
              */
 
-            // this part signs in user if already exists
-            var externalId = userInfoPayload.Subject;
-            if (!string.IsNullOrEmpty(externalId))
+            // this part signs in user directly if user already exists
+            var userExternalId = userInfoPayload.Subject;
+            if (!string.IsNullOrEmpty(userExternalId))
             {
-                var user = await _userManager.FindByLoginAsync(provider, externalId);
-                if (user != null)
+                // find if external user is already logged in 
+                var extenalLoggedInUser = await _userManager.FindByLoginAsync(providerName, userExternalId);
+
+                // this part if external user is already logged in
+                if (extenalLoggedInUser != null)
                 {
-                    // to find the user extra claims
-                    user = await _userManager.FindByIdAsync(user.Id);
+                    // so find the user from db to retrieve claims to send into token
+                    var user = await _userManager.FindByIdAsync(extenalLoggedInUser.Id);
+
+                    // to find the db user claims
                     var userClaims = await _userManager.GetClaimsAsync(user);
+
                     context.Result = new GrantValidationResult(user.Id,
-                        provider, userClaims, provider, null);
+                        providerName, userClaims, providerName, null);
                     return;
                 }
             }
@@ -99,12 +105,14 @@ namespace IdentityAuthServer.Services
             if (string.IsNullOrEmpty(requestEmail))
             {
                 context.Result = await _nonEmailUserProcessor.ProcessAsync(userInfoPayload,
-                    provider);
+                    providerName);
                 return;
             }
 
+            // if email found in post request context
+            // that is from client application email parameter is sent
             context.Result = await _emailUserProcessor.ProcessAsync(userInfoPayload,
-                requestEmail, provider);
+                requestEmail, providerName);
             return;
         }
     }

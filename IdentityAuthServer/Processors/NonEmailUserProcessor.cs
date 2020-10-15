@@ -54,12 +54,38 @@ namespace IdentityAuthServer.Processors
                     Email = userEmail,
                     UserName = userEmail
                 };
-                var result = await _userManager.CreateAsync(newUser);
-                if (result.Succeeded)
+
+                var identityResult = await _userManager.CreateAsync(newUser);
+
+                // new user created
+                if (identityResult.Succeeded)
                 {
-                    // Link the user to this login
+                    // https://docs.microsoft.com/en-us/dotnet/api/system.security.claims.claimtypes?view=netcore-3.1
+                    // If they exist, add claims to the user for:
+                    //    Given (first) name
+                    //    Locale
+                    //    Picture
+                    //if (info.Principal.HasClaim(c => c.Type == ClaimTypes.GivenName))
+                    //{
+                    //    await _userManager.AddClaimAsync(user,
+                    //        info.Principal.FindFirst(ClaimTypes.GivenName));
+                    //}
+
+                    //if (info.Principal.HasClaim(c => c.Type == "urn:google:locale"))
+                    //{
+                    //    await _userManager.AddClaimAsync(user,
+                    //        info.Principal.FindFirst("urn:google:locale"));
+                    //}
+
+                    //if (info.Principal.HasClaim(c => c.Type == "urn:google:picture"))
+                    //{
+                    //    await _userManager.AddClaimAsync(user,
+                    //        info.Principal.FindFirst("urn:google:picture"));
+                    //}
+
+                    // create user login object
                     var userLoginInfo = new UserLoginInfo(provider,
-                        userExternalId, provider.ToUpperInvariant());
+                        userExternalId, provider);
 
                     await _userManager.AddLoginAsync(newUser, userLoginInfo);
 
