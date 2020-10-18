@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using static Google.Apis.Auth.GoogleJsonWebSignature;
+using static Google.Apis.Auth;
 
 namespace IdentityAuthServer.Controllers
 {
@@ -49,11 +49,11 @@ namespace IdentityAuthServer.Controllers
         [Route("google")]
         public async Task<IActionResult> AuthenticateGoogleSignin(ExternalLoginModel externalLoginModel)
         {
-            Payload payload;
+            GoogleJsonWebSignature.Payload payload;
             var provider = "google";
             try
             {
-                var validationSettings = new ValidationSettings();
+                var validationSettings = new GoogleJsonWebSignature.ValidationSettings();
                 //{ Audience = new[] { "YOUR_CLIENT_ID" } };
 
                 payload = await GoogleJsonWebSignature
@@ -65,10 +65,7 @@ namespace IdentityAuthServer.Controllers
                     payload.Email);
 
                 var profilePicture = payload.Picture;
-
-                // create custom claims for the user found from Google idToken
-                var userRoleClaim = new Claim("userRole", externalLoginModel.UserRole);
-
+                
                 /*
                 result = userMgr.AddClaimsAsync(bob, new Claim[]{
                             new Claim(JwtClaimTypes.Name, "Bob Smith"),
@@ -79,25 +76,32 @@ namespace IdentityAuthServer.Controllers
                         }).Result;
                 */
 
-                var result = await _userManager.AddClaimAsync(user, userRoleClaim);
+                // create custom claims for the user found from Google idToken
+                var userRoleCustomClaim = new Claim("userRole", externalLoginModel.UserRole);
+
+                var result = await _userManager.AddClaimAsync(user, userRoleCustomClaim);
 
                 // get the new IdentityServer4 issued access token for the user
                 var userSubscriptionToken = await _identityServerTools
                     .IssueClientJwtAsync(
                     clientId: "userSubscriptionClient",
                     lifetime: 15,
-                    scopes: new[] { "userSubscription.read" },
-                    audiences: new[] { "https://user.subscription.service/" },
+                    scopes: new[] {
+                        "userSubscription.read"
+                    },
+                    audiences: new[] {
+                        "https://user.subscription.service/"
+                    },
                     additionalClaims: new List<Claim>()
                     {
-                        userRoleClaim
+                        userRoleCustomClaim
                     });
 
                 var jwttoken = await _identityServerTools
                    .IssueJwtAsync(
                    lifetime: 15,
                    claims: new List<Claim>() {
-                       userRoleClaim
+                       userRoleCustomClaim
                    });
 
                 return Ok(new
@@ -113,33 +117,35 @@ namespace IdentityAuthServer.Controllers
         }
 
         public async Task<AppUser> GetOrCreateExternalLoginUser(
-            string provider,
-            string key,
+            string loginProvider,
+            string providerKey,
             string email)
         {
             // Login already linked to a user
-            var user = await _userManager.FindByLoginAsync(provider, key);
-            if (user != null)
-                return user;
+            var externalLoggedInUser = await _userManager.FindByLoginAsync(
+                loginProvider, providerKey);
 
-            user = await _userManager.FindByEmailAsync(email);
-            if (user == null)
+            if (externalLoggedInUser != null)
+                return externalLoggedInUser;
+
+            var existingAppUser = await _userManager.FindByEmailAsync(email);
+            if (existingAppUser == null)
             {
                 // No user exists with this email address, we create a new one
-                user = new AppUser
+                existingAppUser = new AppUser
                 {
                     Email = email,
                     UserName = email
                 };
 
-                await _userManager.CreateAsync(user);
+                var identityResult = await _userManager.CreateAsync(existingAppUser);
             }
 
             // Link the user to this login
-            var info = new UserLoginInfo(provider, key, provider);
-            var result = await _userManager.AddLoginAsync(user, info);
+            var info = new UserLoginInfo(loginProvider, providerKey, loginProvider);
+            var result = await _userManager.AddLoginAsync(existingAppUser, info);
             if (result.Succeeded)
-                return user;
+                return existingAppUser;
 
             // if nothing can be done return null user
             return null;

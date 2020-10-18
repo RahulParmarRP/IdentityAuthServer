@@ -103,6 +103,7 @@ namespace IdentityAuthServer.Controllers
                     model.Password,
                     model.RememberMe,
                     lockoutOnFailure: false);
+
                 if (result.Succeeded)
                 {
                     //_logger.LogInformation("User logged in.");
