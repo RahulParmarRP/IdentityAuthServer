@@ -136,7 +136,7 @@ namespace IdentityAuthServer.Controllers
             }
 
             // Link the user to this login
-            var info = new UserLoginInfo(provider, key, provider.ToUpperInvariant());
+            var info = new UserLoginInfo(provider, key, provider);
             var result = await _userManager.AddLoginAsync(user, info);
             if (result.Succeeded)
                 return user;

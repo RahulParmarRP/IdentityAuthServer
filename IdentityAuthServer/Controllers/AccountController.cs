@@ -60,7 +60,6 @@ namespace IdentityAuthServer.Controllers
                     await _userManager.CreateAsync(user, password) :
                     await _userManager.CreateAsync(user);
 
-                //var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     if (!string.IsNullOrEmpty(model.UserRole))

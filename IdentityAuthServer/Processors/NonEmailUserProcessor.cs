@@ -30,19 +30,22 @@ namespace IdentityAuthServer.Processors
 
             if (userEmail == null)
             {
+                // if user is already logged in using external provider
                 var existingUser = await _userManager.FindByLoginAsync(provider, userExternalId);
                 if (existingUser == null)
                 {
                     var customResponse = new Dictionary<string, object>();
                     customResponse.Add("userInfo", userInfo);
+
                     return new GrantValidationResult(TokenRequestErrors.InvalidRequest,
                         "could not retrieve user's email from the given provider, include email parameter and send request again.", customResponse);
                 }
                 else
                 {
-                    existingUser = await _userManager.FindByIdAsync(existingUser.Id);
+                    // find user from db
+                    var appUser = await _userManager.FindByIdAsync(existingUser.Id);
                     // get user claims and add into access token
-                    var userClaims = await _userManager.GetClaimsAsync(existingUser);
+                    var userClaims = await _userManager.GetClaimsAsync(appUser);
                     return new GrantValidationResult(existingUser.Id,
                         provider, userClaims, provider, null);
                 }
@@ -92,7 +95,7 @@ namespace IdentityAuthServer.Processors
                     var userClaims = await _userManager.GetClaimsAsync(newUser);
                     return new GrantValidationResult(newUser.Id, provider, userClaims, provider, null);
                 }
-                return new GrantValidationResult(TokenRequestErrors.InvalidRequest, 
+                return new GrantValidationResult(TokenRequestErrors.InvalidRequest,
                     "user could not be created, please try again");
             }
         }
