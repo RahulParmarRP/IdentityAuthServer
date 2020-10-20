@@ -50,7 +50,7 @@ namespace IdentityAuthServer.Controllers
             //    }
             //};
 
-            // start challenge and roundtrip the return URL and scheme 
+            // start challenge and round trip the return URL and scheme 
             //var props = new AuthenticationProperties
             //{
             //    RedirectUri = Url.Action(nameof(ExternalLoginCallback)),
@@ -95,22 +95,23 @@ We would like to create users on the RS because we feel that's a separate concer
 What we're trying to do now is start to migrate this flow to IdentityServer4, without trusting the client with the external provider's tokens. It seems like the hybrid flow might be a way to do this, but I don't understand how we can make that work with our SPA and creating users on the RS. Any advice would be appreciated. Even if we created the user on the identity server, I don't see how we can then create the authentication tokens for use with the SPA and mobile clients.
          */
 
-        //[HttpGet]
         [HttpGet]
         //[AllowAnonymous]
         [Route("ExternalLoginCallback")]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
         {
+            // read external identity from the cookie in http context
             var result2 = await HttpContext.AuthenticateAsync(IdentityServer4.IdentityServerConstants.ExternalCookieAuthenticationScheme);
-
-            // read external identity from the temporary cookie
-            var result1 = await HttpContext.AuthenticateAsync(IdentityConstants.ExternalScheme);
 
             ////get the tokens
             //var tokens = result2.Properties.GetTokens();
-            //var idToken = tokens.Where(x => x.Name.Equals("id_token")).FirstOrDefault().Value;
+
+            // read external identity from the temporary cookie
+            var result1 = await HttpContext.AuthenticateAsync(IdentityConstants.ExternalScheme);
+            
             //get the tokens
             var tokens = result1.Properties.GetTokens();
+
             //var idToken = tokens.Where(x => x.Name.Equals("id_token")).FirstOrDefault().Value;
             var accessToken2 = tokens.Where(x => x.Name.Equals("access_token")).FirstOrDefault().Value;
 
