@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace IdentityAuthServer.Processors
@@ -19,11 +20,11 @@ namespace IdentityAuthServer.Processors
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         }
 
-        public async Task<GrantValidationResult> ProcessAsync(GoogleJsonWebSignature.Payload userInfo,
+        public async Task<GrantValidationResult> ProcessAsync(GoogleJsonWebSignature.Payload userInfoPayload,
             string provider)
         {
-            var userEmail = userInfo.Email;
-            var userExternalId = userInfo.Subject;
+            var userEmail = userInfoPayload.Email;
+            var userExternalId = userInfoPayload.Subject;
 
             //if (provider.ToLower() == "linkedin")
             //    userEmail = userInfo.Value<string>("emailAddress");
@@ -35,7 +36,7 @@ namespace IdentityAuthServer.Processors
                 if (existingUser == null)
                 {
                     var customResponse = new Dictionary<string, object>();
-                    customResponse.Add("userInfo", userInfo);
+                    customResponse.Add("userInfo", userInfoPayload);
 
                     return new GrantValidationResult(TokenRequestErrors.InvalidRequest,
                         "could not retrieve user's email from the given provider, include email parameter and send request again.", customResponse);
@@ -55,7 +56,7 @@ namespace IdentityAuthServer.Processors
                 var newUser = new AppUser
                 {
                     Email = userEmail,
-                    UserName = userEmail
+                    UserName = userEmail,
                 };
 
                 var identityResult = await _userManager.CreateAsync(newUser);
@@ -90,9 +91,50 @@ namespace IdentityAuthServer.Processors
                     var userLoginInfo = new UserLoginInfo(provider,
                         userExternalId, provider);
 
-                    await _userManager.AddLoginAsync(newUser, userLoginInfo);
+                    var idResult = await _userManager.AddLoginAsync(newUser, userLoginInfo);
+
+                    //var result = await _userManager.AddClaimsAsync(newUser, new Claim[]{
+                    //      new Claim(IdentityModel.JwtClaimTypes.Name, "Bob Smith"),
+                    //      new Claim(IdentityModel.JwtClaimTypes.GivenName, "Bob"),
+                    //      new Claim(IdentityModel.JwtClaimTypes.FamilyName, "Smith"),
+                    //      new Claim(IdentityModel.JwtClaimTypes.WebSite, "http://bob.com"),
+                    //      new Claim("location", "somewhere")
+                    //  })
+                    //    ;
+
+                    var userClaimsToAdd = new List<Claim>
+                {
+                    //new Claim(ClaimTypes.NameIdentifier, userInfoPayload.Name),
+                    new Claim(IdentityModel.JwtClaimTypes.Name, userInfoPayload.Name),
+                    new Claim(IdentityModel.JwtClaimTypes.FamilyName, userInfoPayload.FamilyName),
+                    new Claim(IdentityModel.JwtClaimTypes.GivenName, userInfoPayload.GivenName),
+                    new Claim(IdentityModel.JwtClaimTypes.Email, userInfoPayload.Email),
+                    //new Claim(IdentityModel.JwtClaimTypes.Subject, userInfoPayload.Subject),
+                    new Claim(IdentityModel.JwtClaimTypes.Issuer, userInfoPayload.Issuer),
+                }
+                    ;
+
+                    var claimsIdentityResult = await _userManager.AddClaimsAsync(newUser, userClaimsToAdd);
+                    // create custom claims for the user found from Google idToken
+                    //var userRoleCustomClaim = new Claim("userRole", externalLoginModel.UserRole);
+                    //var b = await _userManager.AddClaimsAsync(newUser);
+                    //var claimsPrincipal = await _signInManager.CreateUserPrincipalAsync(user);
+
+
+                    //var identity = new ClaimsIdentity(context.Options.AuthenticationType);
+                    //foreach (var Rol in roles)
+                    //{
+                    //    identity.AddClaim(new Claim(ClaimTypes.Role, Rol));
+                    //}
+                    //identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
+                    //identity.AddClaim(new Claim(ClaimTypes.Email, user.Correo));
+                    //identity.AddClaim(new Claim(ClaimTypes.MobilePhone, user.Celular));
+                    //identity.AddClaim(new Claim("FullName", user.FullName));
+                    //identity.AddClaim(new Claim("Empresa", user.Empresa));
+                    //identity.AddClaim(new Claim("ConnectionStringsName", user.ConnectionStringsName));
 
                     var userClaims = await _userManager.GetClaimsAsync(newUser);
+
                     return new GrantValidationResult(newUser.Id, provider, userClaims, provider, null);
                 }
                 return new GrantValidationResult(TokenRequestErrors.InvalidRequest,

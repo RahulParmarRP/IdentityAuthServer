@@ -79,11 +79,13 @@ namespace IdentityAuthServer.Services
             if (user == null) return;
             var userClaims = await _userManager.GetClaimsAsync(user);
             var claims = new List<Claim>();
-            foreach (var userClaim in userClaims)
+            foreach (var claim in userClaims)
             {
-                claims.Add(new Claim(userClaim.Type, userClaim.Value));
+                claims.Add(new Claim(claim.Type, claim.Value));
             }
             context.IssuedClaims = claims;
+            // if its a task rather than an async method 
+            // then only the statements is needed
             //return Task.FromResult(0);
         }
 
