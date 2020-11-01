@@ -165,19 +165,34 @@ namespace IdentityAuthServer.Controllers
             //  }
             //;
             AppUser user;
+            //IEnumerable<Claim> userClaims;
             if (!string.IsNullOrEmpty(userAccount.UserId))
             {
                 // so find the user from db to retrieve claims to send into token
                 user = await _userManager.FindByIdAsync(userAccount.UserId);
+                //if (user != null)
+                //{
+                //    // to find the db user claims
+                //    userClaims = await _userManager.GetClaimsAsync(user);
+                //}
             }
             else
             {
                 return BadRequest("userId is not valid!");
             }
 
+
             if (!string.IsNullOrEmpty(userAccount.Name))
             {
-                var nameClaim = new Claim(IdentityModel.JwtClaimTypes.Name, userAccount.Name);
+                // to find the db user claims
+                var userClaims = await _userManager.GetClaimsAsync(user);
+                var nameClaim = userClaims.FirstOrDefault(claim => claim.Type.Equals(IdentityModel.JwtClaimTypes.Name));
+                if (nameClaim != null)
+                {
+                    var removeClaimResult = await _userManager.RemoveClaimAsync(user, nameClaim);
+                }
+                var newNameClaim = new Claim(IdentityModel.JwtClaimTypes.Name, userAccount.Name);
+                var claimsIdentityResult = await _userManager.AddClaimAsync(user, newNameClaim);
             }
 
             if (!string.IsNullOrEmpty(userAccount.Gender))
