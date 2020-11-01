@@ -138,5 +138,80 @@ namespace IdentityAuthServer.Controllers
             //_logger.LogInformation("User logged out.");
             return Ok();
         }
+
+
+        [HttpPost]
+        [Route("updateProfile")]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateProfile([FromBody]UserAccount userAccount)
+        {
+            var claims = from c in User.Claims
+                         select new
+                         {
+                             c.Type,
+                             c.Value
+                         };
+
+            //var userClaimsToAdd = new List<Claim>
+            //    {
+            //        //new Claim(ClaimTypes.NameIdentifier, userInfoPayload.Name),
+            //      new Claim(IdentityModel.JwtClaimTypes.Name, userInfoPayload.Name),
+            //      new Claim(IdentityModel.JwtClaimTypes.FamilyName, userInfoPayload.FamilyName),
+            //      new Claim(IdentityModel.JwtClaimTypes.GivenName, userInfoPayload.GivenName),
+            //      new Claim(IdentityModel.JwtClaimTypes.Email, userInfoPayload.Email),
+            //      //new Claim(IdentityModel.JwtClaimTypes.Subject, userInfoPayload.Subject),
+            //      new Claim(IdentityModel.JwtClaimTypes.Issuer, userInfoPayload.Issuer),
+            //      new Claim(IdentityModel.JwtClaimTypes.Picture, userInfoPayload.Picture),
+            //  }
+            //;
+            AppUser user;
+            if (!string.IsNullOrEmpty(userAccount.UserId))
+            {
+                // so find the user from db to retrieve claims to send into token
+                user = await _userManager.FindByIdAsync(userAccount.UserId);
+            }
+            else
+            {
+                return BadRequest("userId is not valid!");
+            }
+
+            if (!string.IsNullOrEmpty(userAccount.Name))
+            {
+                var nameClaim = new Claim(IdentityModel.JwtClaimTypes.Name, userAccount.Name);
+            }
+
+            if (!string.IsNullOrEmpty(userAccount.Gender))
+            {
+                var genderClaim = new Claim(IdentityModel.JwtClaimTypes.Gender, userAccount.Gender);
+            }
+
+            if (!string.IsNullOrEmpty(userAccount.DateOfBirth))
+            {
+                var birthDateClaim = new Claim(IdentityModel.JwtClaimTypes.BirthDate, userAccount.DateOfBirth);
+            }
+
+            if (!string.IsNullOrEmpty(userAccount.WorkEmail))
+            {
+                var customClaimWorkEmail = new Claim("work_email", userAccount.WorkEmail);
+
+                // add work email to user claims
+                var claimsIdentityResult = await _userManager.AddClaimAsync(user, customClaimWorkEmail);
+            }
+
+            if (!string.IsNullOrEmpty(userAccount.PrimaryEmail))
+            {
+                // Update it with the values from the view model
+                user.Email = userAccount.PrimaryEmail;
+            }
+
+            if (!string.IsNullOrEmpty(userAccount.PhoneNumber))
+            {
+                user.PhoneNumber = userAccount.PhoneNumber;
+            }
+
+            await _userManager.UpdateAsync(user);
+
+            return Ok("profile updated");
+        }
     }
 }

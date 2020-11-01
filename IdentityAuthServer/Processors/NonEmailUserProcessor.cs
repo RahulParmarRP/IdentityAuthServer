@@ -111,6 +111,7 @@ namespace IdentityAuthServer.Processors
                     new Claim(IdentityModel.JwtClaimTypes.Email, userInfoPayload.Email),
                     //new Claim(IdentityModel.JwtClaimTypes.Subject, userInfoPayload.Subject),
                     new Claim(IdentityModel.JwtClaimTypes.Issuer, userInfoPayload.Issuer),
+                    new Claim(IdentityModel.JwtClaimTypes.Picture, userInfoPayload.Picture),
                 }
                     ;
 
