@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityAuthServer.Models;
+using IdentityAuthServer.Utilities;
 using IdentityAuthServer.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -164,6 +165,7 @@ namespace IdentityAuthServer.Controllers
             //      new Claim(IdentityModel.JwtClaimTypes.Picture, userInfoPayload.Picture),
             //  }
             //;
+
             AppUser user;
             //IEnumerable<Claim> userClaims;
             if (!string.IsNullOrEmpty(userAccount.UserId))
@@ -197,18 +199,40 @@ namespace IdentityAuthServer.Controllers
 
             if (!string.IsNullOrEmpty(userAccount.Gender))
             {
-                var genderClaim = new Claim(IdentityModel.JwtClaimTypes.Gender, userAccount.Gender);
+                // to find the db user claims
+                var userClaims = await _userManager.GetClaimsAsync(user);
+                var genderClaim = userClaims.FirstOrDefault(claim => claim.Type.Equals(IdentityModel.JwtClaimTypes.Gender));
+                if (genderClaim != null)
+                {
+                    var removeGenderClaimResult = await _userManager.RemoveClaimAsync(user, genderClaim);
+                }
+                var newGenderClaim = new Claim(IdentityModel.JwtClaimTypes.Gender, userAccount.Gender);
+                var claimsIdentityResult = await _userManager.AddClaimAsync(user, newGenderClaim);
             }
 
             if (!string.IsNullOrEmpty(userAccount.DateOfBirth))
             {
-                var birthDateClaim = new Claim(IdentityModel.JwtClaimTypes.BirthDate, userAccount.DateOfBirth);
+                // to find the db user claims
+                var userClaims = await _userManager.GetClaimsAsync(user);
+                var birthDateClaim = userClaims.FirstOrDefault(claim => claim.Type.Equals(IdentityModel.JwtClaimTypes.BirthDate));
+                if (birthDateClaim != null)
+                {
+                    var removeBirthDateClaimResult = await _userManager.RemoveClaimAsync(user, birthDateClaim);
+                }
+                var newBirthDateClaim = new Claim(IdentityModel.JwtClaimTypes.BirthDate, userAccount.DateOfBirth, ClaimValueTypes.Date);
+                var claimsIdentityResult = await _userManager.AddClaimAsync(user, newBirthDateClaim);
             }
 
             if (!string.IsNullOrEmpty(userAccount.WorkEmail))
             {
-                var customClaimWorkEmail = new Claim("work_email", userAccount.WorkEmail);
-
+                // to find the db user claims
+                var userClaims = await _userManager.GetClaimsAsync(user);
+                var workEmailClaim = userClaims.FirstOrDefault(claim => claim.Type.Equals(CustomClaimsConstants.WorkEmail));
+                if (workEmailClaim != null)
+                {
+                    var removeWorkEmailClaimResult = await _userManager.RemoveClaimAsync(user, workEmailClaim);
+                }
+                var customClaimWorkEmail = new Claim(CustomClaimsConstants.WorkEmail, userAccount.WorkEmail);
                 // add work email to user claims
                 var claimsIdentityResult = await _userManager.AddClaimAsync(user, customClaimWorkEmail);
             }
