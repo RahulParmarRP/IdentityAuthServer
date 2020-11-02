@@ -93,8 +93,8 @@ namespace IdentityAuthServer.Services
                     // to find the db user claims
                     var userClaims = await _userManager.GetClaimsAsync(user);
 
-                    context.Result = new GrantValidationResult(user.Id,
-                        providerName, userClaims, providerName, null);
+                    context.Result = new GrantValidationResult(
+                        user.Id, providerName, userClaims, providerName, null);
                     return;
                 }
             }
